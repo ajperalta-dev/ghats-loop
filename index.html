@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Ghats Loop — South India</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a08; --deep: #111109; --card: #161612; --border: #2a2a22;
+    --amber: #d4891a; --amber-light: #f0a830; --amber-dim: #8a5a10;
+    --green: #4a7c4e; --green-light: #6aaf70;
+    --red: #c04040; --red-light: #e05050;
+    --text: #e8e4d8; --muted: #7a7870; --faint: #3a3830;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--black); color:var(--text); font-family:'Crimson Pro',serif; font-size:17px; min-height:100vh; overflow-x:hidden; }
+  body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events:none; z-index:999; opacity:0.35; }
+
+  .hero { position:relative; padding:60px 40px 40px; border-bottom:1px solid var(--border); overflow:hidden; }
+  .hero::after { content:''; position:absolute; top:-80px; right:-100px; width:500px; height:500px; background:radial-gradient(circle,rgba(212,137,26,0.12) 0%,transparent 70%); pointer-events:none; }
+  .hero-eyebrow { font-family:'Space Mono',monospace; font-size:11px; letter-spacing:3px; color:var(--amber); text-transform:uppercase; margin-bottom:12px; }
+  .hero-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(56px,8vw,112px); line-height:0.9; letter-spacing:2px; color:var(--text); }
+  .hero-title span { color:var(--amber); }
+  .hero-sub { font-style:italic; font-weight:300; font-size:20px; color:var(--muted); margin-top:16px; }
+  .hero-stats { display:flex; gap:48px; margin-top:40px; flex-wrap:wrap; }
+  .hero-stat { display:flex; flex-direction:column; gap:4px; }
+  .hero-stat-value { font-family:'Bebas Neue',sans-serif; font-size:42px; color:var(--amber); line-height:1; }
+  .hero-stat-label { font-family:'Space Mono',monospace; font-size:10px; letter-spacing:2px; color:var(--muted); text-transform:uppercase; }
+
+  .nav { display:flex; border-bottom:1px solid var(--border); background:var(--deep); position:sticky; top:0; z-index:100; overflow-x:auto; }
+  .nav-btn { font-family:'Space Mono',monospace; font-size:11px; letter-spacing:2px; text-transform:uppercase; padding:18px 28px; background:none; border:none; color:var(--muted); cursor:pointer; border-bottom:2px solid transparent; white-space:nowrap; transition:all 0.2s; }
+  .nav-btn:hover { color:var(--text); }
+  .nav-btn.active { color:var(--amber); border-bottom-color:var(--amber); }
+
+  .view { display:none; padding:40px; }
+  .view.active { display:block; animation:fadeIn 0.3s ease; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+  .section-title { font-family:'Bebas Neue',sans-serif; font-size:13px; letter-spacing:4px; color:var(--amber-dim); text-transform:uppercase; margin-bottom:20px; padding-bottom:8px; border-bottom:1px solid var(--faint); }
+
+  .summary-strip { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:2px; background:var(--faint); margin-bottom:48px; }
+  .strip-item { background:var(--deep); padding:18px; text-align:center; }
+  .strip-val { font-family:'Bebas Neue',sans-serif; font-size:40px; color:var(--amber); display:block; line-height:1; }
+  .strip-label { font-family:'Space Mono',monospace; font-size:9px; letter-spacing:2px; color:var(--muted); text-transform:uppercase; margin-top:4px; display:block; }
+
+  .day-cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:2px; margin-bottom:48px; }
+  .day-card { background:var(--card); border:1px solid var(--border); padding:24px; cursor:pointer; transition:all 0.3s; position:relative; overflow:hidden; }
+  .day-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--amber-dim); transition:width 0.3s,background 0.3s; }
+  .day-card:hover::before { width:5px; background:var(--amber); }
+  .day-card:hover { border-color:var(--amber-dim); }
+  .day-card-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; }
+  .day-number { font-family:'Bebas Neue',sans-serif; font-size:50px; line-height:1; color:var(--faint); transition:color 0.3s; }
+  .day-card:hover .day-number { color:var(--amber-dim); }
+  .day-intensity { font-family:'Space Mono',monospace; font-size:9px; letter-spacing:2px; padding:4px 8px; border:1px solid; text-transform:uppercase; }
+  .intensity-high { color:#e8a020; border-color:#e8a020; background:rgba(232,160,32,0.08); }
+  .intensity-very-high { color:#e06020; border-color:#e06020; background:rgba(224,96,32,0.08); }
+  .intensity-technical { color:#6aaf70; border-color:#6aaf70; background:rgba(106,175,112,0.08); }
+  .intensity-maximum { color:#e04040; border-color:#e04040; background:rgba(224,64,64,0.08); }
+  .intensity-scenic { color:#5090c0; border-color:#5090c0; background:rgba(80,144,192,0.08); }
+  .intensity-extreme { color:#c040c0; border-color:#c040c0; background:rgba(192,64,192,0.08); }
+  .intensity-moderate { color:#80c060; border-color:#80c060; background:rgba(128,192,96,0.08); }
+  .day-route { font-family:'Space Mono',monospace; font-size:11px; color:var(--muted); margin-bottom:10px; line-height:1.6; }
+  .day-route strong { color:var(--text); }
+  .day-metrics { display:flex; gap:18px; margin-top:12px; padding-top:12px; border-top:1px solid var(--faint); }
+  .day-metric { display:flex; flex-direction:column; gap:3px; }
+  .day-metric-val { font-family:'Bebas Neue',sans-serif; font-size:24px; color:var(--amber); line-height:1; }
+  .day-metric-label { font-family:'Space Mono',monospace; font-size:9px; letter-spacing:1px; color:var(--muted); text-transform:uppercase; }
+  .day-tags { display:flex; flex-wrap:wrap; gap:5px; margin-top:10px; }
+  .tag { font-family:'Space Mono',monospace; font-size:9px; letter-spacing:1px; padding:3px 8px; border:1px solid var(--faint); color:var(--muted); text-transform:uppercase; }
+  .tag-checkpoint { border-color:#c04040; color:#c04040; background:rgba(192,64,64,0.06); }
+  .tag-waterfall { border-color:#3060a0; color:#6090d0; background:rgba(48,96,160,0.06); }
+  .tag-wildlife { border-color:#406040; color:#70a070; background:rgba(64,96,64,0.06); }
+  .tag-curves { border-color:#806020; color:#c09040; background:rgba(128,96,32,0.06); }
+
+  .alert-box { background:rgba(192,64,64,0.08); border:1px solid rgba(192,64,64,0.3); border-left:3px solid var(--red); padding:16px 20px; margin-bottom:20px; }
+  .alert-box-title { font-family:'Space Mono',monospace; font-size:10px; letter-spacing:2px; color:var(--red-light); text-transform:uppercase; margin-bottom:6px; }
+  .alert-box p { font-size:14px; color:var(--muted); line-height:1.5; }
+
+  .day-selector { display:flex; flex-wrap:wrap; margin-bottom:32px; border:1px solid var(--border); overflow:hidden; }
+  .day-sel-btn { font-family:'Bebas Neue',sans-serif; font-size:20px; padding:13px 0; background:none; border:none; border-right:1px solid var(--border); color:var(--muted); cursor:pointer; transition:all 0.2s; flex:1; min-width:42px; }
+  .day-sel-btn:last-child { border-right:none; }
+  .day-sel-btn:hover { background:var(--card); color:var(--text); }
+  .day-sel-btn.active { background:var(--amber); color:var(--black); }
+
+  .map-canvas-wrap { background:var(--card); border:1px solid var(--border); position:relative; overflow:hidden; margin-bottom:16px; }
+  .map-canvas-wrap svg { display:block; width:100%; }
+  .map-overlay-label { position:absolute; top:12px; left:12px; background:rgba(10,10,8,0.92); border:1px solid var(--amber-dim); padding:6px 12px; font-family:'Space Mono',monospace; font-size:10px; letter-spacing:2px; color:var(--amber); text-transform:uppercase; pointer-events:none; }
+
+  .map-actions { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:28px; }
+  .map-btn { font-family:'Space Mono',monospace; font-size:11px; letter-spacing:2px; padding:13px 22px; text-transform:uppercase; cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; gap:10px; border:1px solid; transition:all 0.2s; }
+  .map-btn-primary { background:var(--amber); color:var(--black); border-color:var(--amber); }
+  .map-btn-primary:hover { background:var(--amber-light); }
+  .map-btn-secondary { background:transparent; color:var(--text); border-color:var(--border); }
+  .map-btn-secondary:hover { border-color:var(--amber-dim); color:var(--amber); }
+
+  .gmaps-link-row { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:32px; }
+  .gmaps-day-btn { font-family:'Space Mono',monospace; font-size:10px; letter-spacing:1px; padding:10px 16px; text-transform:uppercase; text-decoration:none; border:1px solid var(--border); color:var(--muted); transition:all 0.2s; display:inline-flex; align-items:center; gap:8px; }
+  .gmaps-day-btn:hover { border-color:var(--amber-dim); color:var(--amber); background:rgba(212,137,26,0.06); }
+
+  .progress-bar-wrap { background:var(--faint); height:3px; margin:4px 0 14px; border-radius:2px; overflow:hidden; }
+  .progress-bar { height:100%; background:linear-gradient(90deg,var(--amber-dim),var(--amber)); transition:width 0.5s ease; }
+
+  .route-steps { display:flex; flex-direction:column; }
+  .route-step { display:flex; align-items:center; gap:14px; padding:9px 0; border-bottom:1px solid var(--faint); }
+  .route-step:last-child { border-bottom:none; }
+  .route-dot { width:10px; height:10px; border-radius:50%; background:var(--amber); flex-shrink:0; border:2px solid var(--amber-dim); }
+  .route-step-name { font-family:'Space Mono',monospace; font-size:12px; color:var(--text); }
+  .route-step-note { font-size:13px; color:var(--muted); font-style:italic; margin-left:24px; padding-bottom:5px; }
+
+  .tips-list { list-style:none; display:flex; flex-direction:column; gap:10px; }
+  .tips-list li { font-size:15px; color:var(--muted); padding-left:20px; position:relative; line-height:1.5; }
+  .tips-list li::before { content:'→'; position:absolute; left:0; color:var(--amber-dim); font-family:'Space Mono',monospace; font-size:11px; }
+
+  .day-detail-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; margin-bottom:32px; }
+  .detail-card { background:var(--card); border:1px solid var(--border); padding:24px; }
+  .detail-card-title { font-family:'Space Mono',monospace; font-size:10px; letter-spacing:3px; color:var(--amber-dim); text-transform:uppercase; margin-bottom:14px; }
+
+  .map-legend { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:2px; }
+  .legend-item { background:var(--card); border:1px solid var(--border); padding:14px 18px; display:flex; align-items:center; gap:14px; }
+  .legend-dot { width:14px; height:14px; border-radius:50%; flex-shrink:0; border:2px solid; }
+  .legend-text { font-family:'Space Mono',monospace; font-size:10px; letter-spacing:1px; color:var(--muted); text-transform:uppercase; }
+  .legend-name { font-size:13px; color:var(--text); font-family:'Crimson Pro',serif; font-style:italic; margin-top:2px; }
+
+  .checkpoints-list { display:flex; flex-direction:column; gap:2px; margin-bottom:48px; }
+  .checkpoint-item { background:var(--card); border:1px solid var(--border); border-left:3px solid var(--red); padding:20px 24px; display:flex; gap:24px; align-items:flex-start; }
+  .checkpoint-day-badge { font-family:'Bebas Neue',sans-serif; font-size:30px; color:var(--red-light); line-height:1; min-width:38px; }
+  .checkpoint-info { flex:1; }
+  .checkpoint-name { font-family:'Space Mono',monospace; font-size:12px; color:var(--text); margin-bottom:6px; font-weight:700; }
+  .checkpoint-desc { font-size:15px; color:var(--muted); line-height:1.5; font-style:italic; }
+  .checkpoint-alert { font-family:'Space Mono',monospace; font-size:10px; color:var(--amber); margin-top:8px; padding:6px 10px; background:rgba(212,137,26,0.08); border:1px solid rgba(212,137,26,0.2); }
+
+  .info-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:2px; margin-bottom:40px; }
+  .info-card { background:var(--card); border:1px solid var(--border); padding:24px; }
+  .info-card-icon { font-size:26px; margin-bottom:12px; display:block; }
+  .info-card h3 { font-family:'Space Mono',monospace; font-size:11px; letter-spacing:2px; color:var(--amber); text-transform:uppercase; margin-bottom:14px; }
+  .info-card ul { list-style:none; }
+  .info-card ul li { font-size:14px; color:var(--muted); padding:5px 0; border-bottom:1px solid var(--faint); display:flex; align-items:center; gap:8px; }
+  .info-card ul li:last-child { border-bottom:none; }
+  .info-card ul li::before { content:'·'; color:var(--amber-dim); font-size:20px; line-height:0; }
+
+  .elev-wrap { background:var(--card); border:1px solid var(--border); padding:24px; margin-bottom:32px; }
+  .elev-wrap svg { display:block; width:100%; overflow:visible; }
+
+  .footer { border-top:1px solid var(--border); padding:24px 40px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
+  .footer-text { font-family:'Space Mono',monospace; font-size:10px; letter-spacing:2px; color:var(--faint); text-transform:uppercase; }
+
+  ::-webkit-scrollbar { width:6px; height:6px; }
+  ::-webkit-scrollbar-track { background:var(--deep); }
+  ::-webkit-scrollbar-thumb { background:var(--faint); }
+  ::-webkit-scrollbar-thumb:hover { background:var(--amber-dim); }
+
+  @media(max-width:700px) {
+    .day-detail-grid { grid-template-columns:1fr; }
+    .hero { padding:36px 20px 28px; }
+    .view { padding:20px 16px; }
+    .day-cards { grid-template-columns:1fr; }
+    .hero-stats { gap:28px; }
+    .footer { padding:20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-eyebrow">🏍 Motorcycle Route · South India · Western Ghats · Kerala · Karnataka · Tamil Nadu</div>
+  <h1 class="hero-title">The <span>Ghats</span><br>Loop</h1>
+  <p class="hero-sub">Kalpetta → Ooty → Valparai → Munnar → Kodaikanal → Madikeri → Kalpetta</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="hero-stat-value">1180</span><span class="hero-stat-label">Total km</span></div>
+    <div class="hero-stat"><span class="hero-stat-value">6</span><span class="hero-stat-label">Riding days</span></div>
+    <div class="hero-stat"><span class="hero-stat-value">197</span><span class="hero-stat-label">Avg km/day</span></div>
+    <div class="hero-stat"><span class="hero-stat-value">3+</span><span class="hero-stat-label">Checkpoints</span></div>
+    <div class="hero-stat"><span class="hero-stat-value">76+</span><span class="hero-stat-label">Tech bends</span></div>
+    <div class="hero-stat"><span class="hero-stat-value">3</span><span class="hero-stat-label">Waterfalls</span></div>
+  </div>
+  <!-- TRIP DATE BANNER -->
+  <div style="display:flex;flex-wrap:wrap;gap:2px;margin-top:32px;">
+    <div style="background:var(--card);border:1px solid var(--border);border-left:3px solid var(--amber);padding:14px 22px;display:flex;flex-direction:column;gap:4px;flex:1;min-width:200px;">
+      <span style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--amber-dim);text-transform:uppercase;">🟢 Departure</span>
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--text);line-height:1;">Pick-up day</span>
+      <span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--amber);">11:00 AM · Pick up bike · Kalpetta</span>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-left:3px solid var(--red);padding:14px 22px;display:flex;flex-direction:column;gap:4px;flex:1;min-width:200px;">
+      <span style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;color:#802020;text-transform:uppercase;">🔴 Return</span>
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--text);line-height:1;">Return day</span>
+      <span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--red-light);">10:30 AM · Drop off bike · Kalpetta</span>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);padding:14px 22px;display:flex;flex-direction:column;gap:4px;flex:1;min-width:160px;">
+      <span style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;">⏱ Window</span>
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--amber);line-height:1;">6 Days</span>
+      <span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);">return bike 10:30 AM · day after last ride</span>
+    </div>
+  </div>
+
+</div>
+
+<nav class="nav">
+  <button class="nav-btn active" onclick="showView('dashboard')">Dashboard</button>
+  <button class="nav-btn" onclick="showView('days')">Days</button>
+  <button class="nav-btn" onclick="showView('map')">Map</button>
+  <button class="nav-btn" onclick="showView('checkpoints')">Checkpoints</button>
+  <button class="nav-btn" onclick="showView('info')">Info & Gear</button>
+</nav>
+
+<!-- DASHBOARD -->
+<div id="view-dashboard" class="view active">
+  <div class="summary-strip">
+    <div class="strip-item"><span class="strip-val">250</span><span class="strip-label">Leg 1 · km</span></div>
+    <div class="strip-item"><span class="strip-val">210</span><span class="strip-label">Leg 2 · km</span></div>
+    <div class="strip-item"><span class="strip-val">170</span><span class="strip-label">Leg 3 · km</span></div>
+    <div class="strip-item"><span class="strip-val">180</span><span class="strip-label">Leg 4 · km</span></div>
+    <div class="strip-item"><span class="strip-val">330</span><span class="strip-label">Leg 5 · km</span></div>
+    <div class="strip-item"><span class="strip-val">200</span><span class="strip-label">Leg 6 · km</span></div>
+  </div>
+
+  <div class="section-title">All 6 Riding Days</div>
+  <div class="day-cards">
+    <div class="day-card" onclick="showView('days');selectDay(1)">
+      <div class="day-card-header"><div class="day-number">01</div><span class="day-intensity intensity-very-high">Very High</span></div>
+            <div class="day-route"><strong>Kalpetta → Ooty</strong><br>via Nagarhole · Bandipur · Mudumalai</div>
+      <div class="day-metrics">
+        <div class="day-metric"><span class="day-metric-val">230</span><span class="day-metric-label">km</span></div>
+        <div class="day-metric"><span class="day-metric-val">~7h</span><span class="day-metric-label">riding</span></div>
+        <div class="day-metric"><span class="day-metric-val">KL→KA→TN</span><span class="day-metric-label">states</span></div>
+      </div>
+      <div class="day-tags">
+        <span class="tag tag-checkpoint">⚠ Kutta CP</span>
+        <span class="tag tag-wildlife">🐯 2 Tiger Reserves</span>
+        <span class="tag tag-curves">🔄 36 Bends</span>
+      </div>
+    </div>
+    <div class="day-card" onclick="showView('days');selectDay(2)">
+      <div class="day-card-header"><div class="day-number">02</div><span class="day-intensity intensity-technical">Technical</span></div>
+            <div class="day-route"><strong>Ooty → Valparai</strong><br>via Coonoor · Mettupalayam · Pollachi</div>
+      <div class="day-metrics">
+        <div class="day-metric"><span class="day-metric-val">200</span><span class="day-metric-label">km</span></div>
+        <div class="day-metric"><span class="day-metric-val">~6h</span><span class="day-metric-label">riding</span></div>
+        <div class="day-metric"><span class="day-metric-val">TN</span><span class="day-metric-label">Tamil Nadu</span></div>
+      </div>
+      <div class="day-tags">
+        <span class="tag tag-curves">🔄 40 Bends</span>
+        <span class="tag tag-waterfall">💧 Monkey Falls</span>
+      </div>
+    </div>
+    <div class="day-card" onclick="showView('days');selectDay(3)">
+      <div class="day-card-header"><div class="day-number">03</div><span class="day-intensity intensity-maximum">Maximum</span></div>
+            <div class="day-route"><strong>Valparai → Munnar</strong><br>via Sholayar · Malakkappara · Athirappilly</div>
+      <div class="day-metrics">
+        <div class="day-metric"><span class="day-metric-val">150</span><span class="day-metric-label">km</span></div>
+        <div class="day-metric"><span class="day-metric-val">~5h</span><span class="day-metric-label">riding</span></div>
+        <div class="day-metric"><span class="day-metric-val">TN→KL</span><span class="day-metric-label">states</span></div>
+      </div>
+      <div class="day-tags">
+        <span class="tag tag-checkpoint">⚠ Malakkappara</span>
+        <span class="tag tag-waterfall">💧 Athirappilly 80m</span>
+        <span class="tag tag-wildlife">🌳 Deep Jungle</span>
+      </div>
+    </div>
+    <div class="day-card" onclick="showView('days');selectDay(4)">
+      <div class="day-card-header"><div class="day-number">04</div><span class="day-intensity intensity-scenic">Scenic</span></div>
+            <div class="day-route"><strong>Munnar → Kodaikanal</strong><br>via Devikulam · Poopara · Theni</div>
+      <div class="day-metrics">
+        <div class="day-metric"><span class="day-metric-val">170</span><span class="day-metric-label">km</span></div>
+        <div class="day-metric"><span class="day-metric-val">~5.5h</span><span class="day-metric-label">riding</span></div>
+        <div class="day-metric"><span class="day-metric-val">KL→TN</span><span class="day-metric-label">states</span></div>
+      </div>
+      <div class="day-tags">
+        <span class="tag">🍃 Tea Estates</span>
+        <span class="tag tag-checkpoint">⚠ Avoid Theni</span>
+      </div>
+    </div>
+    <div class="day-card" onclick="showView('days');selectDay(5)">
+      <div class="day-card-header"><div class="day-number">05</div><span class="day-intensity intensity-moderate">Moderate</span></div>
+            <div class="day-route"><strong>Kodaikanal → Madikeri</strong><br>via Palani · Coimbatore · Kushalnagar</div>
+      <div class="day-metrics">
+        <div class="day-metric"><span class="day-metric-val">200</span><span class="day-metric-label">km</span></div>
+        <div class="day-metric"><span class="day-metric-val">~6h</span><span class="day-metric-label">riding</span></div>
+        <div class="day-metric"><span class="day-metric-val">TN→KA</span><span class="day-metric-label">states</span></div>
+      </div>
+      <div class="day-tags">
+        <span class="tag">🏛 Palani Temple</span>
+        <span class="tag" style="border-color:#c040c0;color:#c040c0;background:rgba(192,64,192,0.06);">🔥 Theyyam intel</span>
+      </div>
+    </div>
+    <div class="day-card" onclick="showView('days');selectDay(6)">
+      <div class="day-card-header"><div class="day-number">06</div><span class="day-intensity intensity-high">High</span></div>
+            <div class="day-route"><strong>Madikeri → Kalpetta</strong><br>via Virajpet · Nilambur · Mananthavady</div>
+      <div class="day-metrics">
+        <div class="day-metric"><span class="day-metric-val">130</span><span class="day-metric-label">km</span></div>
+        <div class="day-metric"><span class="day-metric-val">~3.5h</span><span class="day-metric-label">riding</span></div>
+        <div class="day-metric"><span class="day-metric-val">KA→KL</span><span class="day-metric-label">states</span></div>
+      </div>
+      <div class="day-tags">
+        <span class="tag tag-wildlife">🌲 Teak Forests</span>
+        <span class="tag">🏁 Loop Closes</span>
+        <span class="tag" style="border-color:#c040c0;color:#c040c0;background:rgba(192,64,192,0.06);">🔥 Theyyam evening</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">Route Alerts</div>
+  <div class="alert-box">
+    <div class="alert-box-title">⚠ Wildlife Reserve Traffic Restrictions</div>
+    <p>Bandipur and Mudumalai (Leg 1) are closed to all traffic between 9 PM and 6 AM. Maximum speed inside reserves: 30 km/h. Forest rangers actively enforce with radar. Any violation risks a fine and escorted exit.</p>
+  </div>
+  <div class="alert-box" style="border-left-color:var(--amber);border-color:rgba(212,137,26,0.3);background:rgba(212,137,26,0.05);">
+    <div class="alert-box-title" style="color:var(--amber);">📋 Required Documentation</div>
+    <p>Always have ready: motorcycle licence, RC (Registration Certificate), valid insurance, Pollution Under Control (PUC) certificate, and passport or Aadhaar. At forest checkpoints an entry permit may be required — verify with the relevant state forest department beforehand.</p>
+  </div>
+</div>
+
+<!-- DAYS -->
+<div id="view-days" class="view">
+  <div class="day-selector">
+    <button class="day-sel-btn active" onclick="selectDay(1)">Leg 1</button>
+    <button class="day-sel-btn" onclick="selectDay(2)">Leg 2</button>
+    <button class="day-sel-btn" onclick="selectDay(3)">Leg 3</button>
+    <button class="day-sel-btn" onclick="selectDay(4)">Leg 4</button>
+    <button class="day-sel-btn" onclick="selectDay(5)">Leg 5</button>
+    <button class="day-sel-btn" onclick="selectDay(6)">Leg 6</button>
+  </div>
+  <div id="day-detail-content"></div>
+</div>
+
+<!-- MAP -->
+<div id="view-map" class="view">
+  <div class="section-title">Full Route — 7 GPS Waypoints</div>
+  <div class="map-actions">
+    <a href="https://www.google.com/maps/dir/Kalpetta,Kerala/Udhagamandalam,Tamil+Nadu/Valparai,Tamil+Nadu/Munnar,Kerala/Kodaikanal,Tamil+Nadu/Madikeri,Karnataka/Kalpetta,Kerala/@11.0,76.5,8z" target="_blank" class="map-btn map-btn-primary">
+      🗺 Open Full Route in Google Maps
+    </a>
+  </div>
+
+  <!-- FULL OVERVIEW MAP — SVG -->
+  <div class="map-canvas-wrap">
+    <svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" style="height:500px;">
+      <defs>
+        <radialGradient id="bg0" cx="50%" cy="50%" r="70%">
+          <stop offset="0%" stop-color="#181f12"/>
+          <stop offset="100%" stop-color="#0a0a08"/>
+        </radialGradient>
+        <filter id="glow0"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <rect width="900" height="500" fill="url(#bg0)"/>
+      <!-- Topo rings -->
+      <ellipse cx="450" cy="270" rx="380" ry="215" fill="none" stroke="#1c2218" stroke-width="1.2"/>
+      <ellipse cx="450" cy="270" rx="300" ry="170" fill="none" stroke="#1a2016" stroke-width="0.9"/>
+      <ellipse cx="450" cy="270" rx="220" ry="125" fill="none" stroke="#182014" stroke-width="0.7"/>
+      <!-- State labels -->
+      <text x="110" y="100" font-family="Space Mono,monospace" font-size="9" fill="#28381e" letter-spacing="3" text-anchor="middle">KARNATAKA</text>
+      <text x="700" y="410" font-family="Space Mono,monospace" font-size="9" fill="#28381e" letter-spacing="3" text-anchor="middle">TAMIL NADU</text>
+      <text x="190" y="395" font-family="Space Mono,monospace" font-size="9" fill="#28381e" letter-spacing="3" text-anchor="middle">KERALA</text>
+
+      <!-- Route: Kalpetta→Ooty→Valparai→Munnar→Kodaikanal→Madikeri→Kalpetta -->
+      <!-- shadow -->
+      <polyline points="255,300 420,175 520,300 480,385 635,345 130,115 255,300" fill="none" stroke="#2a2018" stroke-width="14" stroke-linejoin="round" stroke-linecap="round"/>
+      <!-- dashed line -->
+      <polyline points="255,300 420,175 520,300 480,385 635,345 130,115 255,300" fill="none" stroke="#d4891a" stroke-width="2.2" stroke-dasharray="7,4" stroke-linejoin="round" stroke-linecap="round" opacity="0.8"/>
+
+      <!-- Wildlife reserve zones -->
+      <ellipse cx="310" cy="220" rx="44" ry="24" fill="rgba(74,124,78,0.07)" stroke="#4a7c4e" stroke-width="0.8" stroke-dasharray="3,3"/>
+      <text x="310" y="224" font-family="Space Mono,monospace" font-size="7" fill="#4a7c4e" text-anchor="middle">BANDIPUR</text>
+      <ellipse cx="370" cy="195" rx="36" ry="20" fill="rgba(74,124,78,0.07)" stroke="#4a7c4e" stroke-width="0.8" stroke-dasharray="3,3"/>
+      <text x="370" y="199" font-family="Space Mono,monospace" font-size="7" fill="#4a7c4e" text-anchor="middle">MUDUMALAI</text>
+
+      <!-- Checkpoints -->
+      <polygon points="285,258 288,252 291,258" fill="#c04040" opacity="0.9"/>
+      <text x="296" y="260" font-family="Space Mono,monospace" font-size="7.5" fill="#c04040">Kutta CP</text>
+      <polygon points="482,343 485,337 488,343" fill="#c04040" opacity="0.9"/>
+      <text x="492" y="345" font-family="Space Mono,monospace" font-size="7.5" fill="#c04040">Malakkappara CP</text>
+
+      <!-- Waterfalls -->
+      <text x="462" y="352" font-size="11">💧</text>
+      <text x="474" y="354" font-family="Space Mono,monospace" font-size="7" fill="#6090d0">Athirappilly</text>
+      <text x="485" y="268" font-size="11">💧</text>
+      <text x="497" y="270" font-family="Space Mono,monospace" font-size="7" fill="#6090d0">Monkey Falls</text>
+
+      <!-- Waypoints -->
+      <!-- Kalpetta START/FINISH -->
+      <circle cx="255" cy="300" r="12" fill="#d4891a" opacity="0.15"/>
+      <circle cx="255" cy="300" r="7" fill="#d4891a"/>
+      <circle cx="255" cy="300" r="3" fill="#fff"/>
+      <text x="270" y="297" font-family="Space Mono,monospace" font-size="10" fill="#d4891a" letter-spacing="0.5">KALPETTA</text>
+      <text x="270" y="309" font-family="Space Mono,monospace" font-size="8" fill="#7a7870">Start / Finish · 800m</text>
+      <!-- Ooty Night 1 -->
+      <circle cx="420" cy="175" r="12" fill="#4a7c4e" opacity="0.15"/>
+      <circle cx="420" cy="175" r="7" fill="#4a7c4e"/>
+      <circle cx="420" cy="175" r="3" fill="#fff"/>
+      <text x="434" y="172" font-family="Space Mono,monospace" font-size="10" fill="#4a7c4e" letter-spacing="0.5">OOTY</text>
+      <text x="434" y="184" font-family="Space Mono,monospace" font-size="8" fill="#7a7870">Night 1 · 2240m</text>
+      <!-- Valparai Night 2 -->
+      <circle cx="520" cy="300" r="12" fill="#4060a0" opacity="0.15"/>
+      <circle cx="520" cy="300" r="7" fill="#4060a0"/>
+      <circle cx="520" cy="300" r="3" fill="#fff"/>
+      <text x="534" y="297" font-family="Space Mono,monospace" font-size="10" fill="#4060a0" letter-spacing="0.5">VALPARAI</text>
+      <text x="534" y="309" font-family="Space Mono,monospace" font-size="8" fill="#7a7870">Night 2 · 40 bends</text>
+      <!-- Munnar Night 3 -->
+      <circle cx="480" cy="385" r="12" fill="#a0a020" opacity="0.15"/>
+      <circle cx="480" cy="385" r="7" fill="#a0a020"/>
+      <circle cx="480" cy="385" r="3" fill="#fff"/>
+      <text x="494" y="382" font-family="Space Mono,monospace" font-size="10" fill="#c0c040" letter-spacing="0.5">MUNNAR</text>
+      <text x="494" y="394" font-family="Space Mono,monospace" font-size="8" fill="#7a7870">Night 3 · 1600m</text>
+      <!-- Kodaikanal Night 4 -->
+      <circle cx="635" cy="345" r="12" fill="#8040a0" opacity="0.15"/>
+      <circle cx="635" cy="345" r="7" fill="#8040a0"/>
+      <circle cx="635" cy="345" r="3" fill="#fff"/>
+      <text x="649" y="342" font-family="Space Mono,monospace" font-size="10" fill="#a060c0" letter-spacing="0.5">KODAIKANAL</text>
+      <text x="649" y="354" font-family="Space Mono,monospace" font-size="8" fill="#7a7870">Night 4 · 2133m</text>
+      <!-- Madikeri Night 5 -->
+      <circle cx="130" cy="115" r="12" fill="#c04040" opacity="0.15"/>
+      <circle cx="130" cy="115" r="7" fill="#c04040"/>
+      <circle cx="130" cy="115" r="3" fill="#fff"/>
+      <text x="145" y="112" font-family="Space Mono,monospace" font-size="10" fill="#c04040" letter-spacing="0.5">MADIKERI</text>
+      <text x="145" y="124" font-family="Space Mono,monospace" font-size="8" fill="#7a7870">Night 5 · 1100m</text>
+      <!-- Theyyam marker on D6 route near Mananthavady -->
+      <circle cx="210" cy="255" r="7" fill="#c040c0" opacity="0.15"/>
+      <circle cx="210" cy="255" r="4" fill="#c040c0" opacity="0.7"/>
+      <circle cx="210" cy="255" r="1.5" fill="#fff"/>
+      <text x="220" y="253" font-family="Space Mono,monospace" font-size="7.5" fill="#c040c0">MANANTHAVADY</text>
+      <text x="220" y="263" font-family="Space Mono,monospace" font-size="7" fill="#7a7870">🔥 Theyyam</text>
+
+      <!-- North arrow -->
+      <g transform="translate(858,48)">
+        <circle cx="0" cy="0" r="17" fill="rgba(26,26,20,0.85)" stroke="#3a3830" stroke-width="1"/>
+        <polygon points="0,-11 3.5,3.5 0,1 -3.5,3.5" fill="#d4891a"/>
+        <polygon points="0,11 3.5,-3.5 0,-1 -3.5,-3.5" fill="#3a3830"/>
+        <text x="0" y="-14" font-family="Space Mono,monospace" font-size="8" fill="#d4891a" text-anchor="middle">N</text>
+      </g>
+      <!-- Scale -->
+      <g transform="translate(28,480)">
+        <line x1="0" y1="0" x2="75" y2="0" stroke="#3a3830" stroke-width="1.5"/>
+        <line x1="0" y1="-4" x2="0" y2="4" stroke="#3a3830" stroke-width="1.5"/>
+        <line x1="75" y1="-4" x2="75" y2="4" stroke="#3a3830" stroke-width="1.5"/>
+        <text x="37" y="-6" font-family="Space Mono,monospace" font-size="7.5" fill="#3a3830" text-anchor="middle">~100 km</text>
+      </g>
+    </svg>
+    <div class="map-overlay-label">🏍 The Ghats Loop · ~1310 km · 6 Legs · South India</div>
+  </div>
+
+  <!-- ELEVATION PROFILE -->
+  <div class="elev-wrap">
+    <div class="detail-card-title" style="margin-bottom:14px;">Elevation Profile — Full Loop</div>
+    <svg viewBox="0 0 910 150" xmlns="http://www.w3.org/2000/svg" style="height:150px;">
+      <defs>
+        <linearGradient id="eg" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#d4891a" stop-opacity="0.4"/>
+          <stop offset="100%" stop-color="#d4891a" stop-opacity="0.02"/>
+        </linearGradient>
+      </defs>
+            <line x1="15" y1="25.0" x2="905" y2="25.0" stroke="#1e1e18" stroke-width="0.7"/>
+      <text x="13" y="28.0" font-family="Space Mono,monospace" font-size="6.5" fill="#3a3830" text-anchor="end">2200m</text>
+      <line x1="15" y1="55.0" x2="905" y2="55.0" stroke="#1e1e18" stroke-width="0.7"/>
+      <text x="13" y="58.0" font-family="Space Mono,monospace" font-size="6.5" fill="#3a3830" text-anchor="end">1600m</text>
+      <line x1="15" y1="95.0" x2="905" y2="95.0" stroke="#1e1e18" stroke-width="0.7"/>
+      <text x="13" y="98.0" font-family="Space Mono,monospace" font-size="6.5" fill="#3a3830" text-anchor="end">800m</text>
+      <line x1="15" y1="125.0" x2="905" y2="125.0" stroke="#1e1e18" stroke-width="0.7"/>
+      <text x="13" y="128.0" font-family="Space Mono,monospace" font-size="6.5" fill="#3a3830" text-anchor="end">200m</text>
+      
+      <rect x="20" y="0" width="255" height="150" fill="#e06020" opacity="0.03"/>
+      <line x1="275" y1="8" x2="275" y2="140" stroke="#2a2820" stroke-width="0.8" stroke-dasharray="2,3"/>
+      <text x="147" y="11" font-family="Space Mono,monospace" font-size="5.5" fill="#e06020" text-anchor="middle" opacity="0.7">LEG 1</text>
+      <rect x="275" y="0" width="170" height="150" fill="#6aaf70" opacity="0.03"/>
+      <line x1="445" y1="8" x2="445" y2="140" stroke="#2a2820" stroke-width="0.8" stroke-dasharray="2,3"/>
+      <text x="360" y="11" font-family="Space Mono,monospace" font-size="5.5" fill="#6aaf70" text-anchor="middle" opacity="0.7">LEG 2</text>
+      <rect x="445" y="0" width="145" height="150" fill="#e04040" opacity="0.03"/>
+      <line x1="590" y1="8" x2="590" y2="140" stroke="#2a2820" stroke-width="0.8" stroke-dasharray="2,3"/>
+      <text x="517" y="11" font-family="Space Mono,monospace" font-size="5.5" fill="#e04040" text-anchor="middle" opacity="0.7">LEG 3</text>
+      <rect x="590" y="0" width="50" height="150" fill="#5090c0" opacity="0.03"/>
+      <line x1="640" y1="8" x2="640" y2="140" stroke="#2a2820" stroke-width="0.8" stroke-dasharray="2,3"/>
+      <text x="615" y="11" font-family="Space Mono,monospace" font-size="5.5" fill="#5090c0" text-anchor="middle" opacity="0.7">LEG 4</text>
+      <rect x="640" y="0" width="130" height="150" fill="#80c060" opacity="0.03"/>
+      <line x1="770" y1="8" x2="770" y2="140" stroke="#2a2820" stroke-width="0.8" stroke-dasharray="2,3"/>
+      <text x="705" y="11" font-family="Space Mono,monospace" font-size="5.5" fill="#80c060" text-anchor="middle" opacity="0.7">LEG 5</text>
+      <rect x="770" y="0" width="120" height="150" fill="#e8a020" opacity="0.03"/>
+      <line x1="890" y1="8" x2="890" y2="140" stroke="#2a2820" stroke-width="0.8" stroke-dasharray="2,3"/>
+      <text x="830" y="11" font-family="Space Mono,monospace" font-size="5.5" fill="#e8a020" text-anchor="middle" opacity="0.7">LEG 6</text>
+      <path d="M 20,95.0 C 28.0,95.3 45.0,95.5 60,96.5 C 75.0,97.5 80.0,101.0 95,100.0 C 110.0,99.0 120.0,93.5 135,91.5 C 150.0,89.5 154.0,92.3 170,90.0 C 186.0,87.7 194.0,93.4 215,80.0 C 236.0,66.6 255.0,30.5 275,23.0 C 295.0,15.5 299.0,23.3 315,42.5 C 331.0,61.7 338.0,103.3 355,119.0 C 372.0,134.7 382.0,132.6 400,121.0 C 418.0,109.4 429.0,64.2 445,61.0 C 461.0,57.8 467.0,98.2 480,105.0 C 493.0,111.8 499.0,89.3 510,95.0 C 521.0,100.7 526.0,125.7 535,133.5 C 544.0,141.3 544.0,149.7 555,134.0 C 566.0,118.3 578.0,71.8 590,55.0 C 602.0,38.2 605.0,55.3 615,50.0 C 625.0,44.7 628.0,12.6 640,28.3 C 652.0,44.0 662.0,111.3 675,128.5 C 688.0,145.7 692.0,122.2 705,114.5 C 718.0,106.8 727.0,96.9 740,90.0 C 753.0,83.1 757.0,78.4 770,80.0 C 783.0,81.6 792.0,87.3 805,98.0 C 818.0,108.7 824.0,133.8 835,133.5 C 846.0,133.2 849.0,104.2 860,96.5 C 871.0,88.8 884.0,95.3 890,95.0 L 890,140 L 20,140 Z" fill="url(#eg)" stroke="none"/>
+      <path d="M 20,95.0 C 28.0,95.3 45.0,95.5 60,96.5 C 75.0,97.5 80.0,101.0 95,100.0 C 110.0,99.0 120.0,93.5 135,91.5 C 150.0,89.5 154.0,92.3 170,90.0 C 186.0,87.7 194.0,93.4 215,80.0 C 236.0,66.6 255.0,30.5 275,23.0 C 295.0,15.5 299.0,23.3 315,42.5 C 331.0,61.7 338.0,103.3 355,119.0 C 372.0,134.7 382.0,132.6 400,121.0 C 418.0,109.4 429.0,64.2 445,61.0 C 461.0,57.8 467.0,98.2 480,105.0 C 493.0,111.8 499.0,89.3 510,95.0 C 521.0,100.7 526.0,125.7 535,133.5 C 544.0,141.3 544.0,149.7 555,134.0 C 566.0,118.3 578.0,71.8 590,55.0 C 602.0,38.2 605.0,55.3 615,50.0 C 625.0,44.7 628.0,12.6 640,28.3 C 652.0,44.0 662.0,111.3 675,128.5 C 688.0,145.7 692.0,122.2 705,114.5 C 718.0,106.8 727.0,96.9 740,90.0 C 753.0,83.1 757.0,78.4 770,80.0 C 783.0,81.6 792.0,87.3 805,98.0 C 818.0,108.7 824.0,133.8 835,133.5 C 846.0,133.2 849.0,104.2 860,96.5 C 871.0,88.8 884.0,95.3 890,95.0" fill="none" stroke="#d4891a" stroke-width="1.8" stroke-linejoin="round"/>
+      
+      <circle cx="20" cy="95.0" r="3" fill="#d4891a"/>
+      <text x="20" y="90.0" font-family="Space Mono,monospace" font-size="6" fill="#d4891a" text-anchor="middle">KAL</text>
+      <circle cx="95" cy="100.0" r="3" fill="#c04040"/>
+      <text x="95" y="95.0" font-family="Space Mono,monospace" font-size="6" fill="#c04040" text-anchor="middle">KUTTA</text>
+      <circle cx="135" cy="91.5" r="3" fill="#5a5850"/>
+      <text x="135" y="86.5" font-family="Space Mono,monospace" font-size="6" fill="#5a5850" text-anchor="middle">GUN</text>
+      <circle cx="170" cy="90.0" r="3" fill="#4a7c4e"/>
+      <text x="170" y="85.0" font-family="Space Mono,monospace" font-size="6" fill="#4a7c4e" text-anchor="middle">BAN</text>
+      <circle cx="215" cy="80.0" r="3" fill="#5a5850"/>
+      <text x="215" y="75.0" font-family="Space Mono,monospace" font-size="6" fill="#5a5850" text-anchor="middle">MAS</text>
+      <circle cx="275" cy="23.0" r="3" fill="#4a7c4e"/>
+      <text x="275" y="33.0" font-family="Space Mono,monospace" font-size="6" fill="#4a7c4e" text-anchor="middle">OOTY</text>
+      <circle cx="315" cy="42.5" r="3" fill="#5a5850"/>
+      <text x="315" y="52.5" font-family="Space Mono,monospace" font-size="6" fill="#5a5850" text-anchor="middle">COO</text>
+      <circle cx="355" cy="119.0" r="3" fill="#5a5850"/>
+      <text x="355" y="114.0" font-family="Space Mono,monospace" font-size="6" fill="#5a5850" text-anchor="middle">MET</text>
+      <circle cx="400" cy="121.0" r="3" fill="#5a5850"/>
+      <text x="400" y="116.0" font-family="Space Mono,monospace" font-size="6" fill="#5a5850" text-anchor="middle">POL</text>
+      <circle cx="445" cy="61.0" r="3" fill="#4060a0"/>
+      <text x="445" y="71.0" font-family="Space Mono,monospace" font-size="6" fill="#4060a0" text-anchor="middle">VAL</text>
+      <circle cx="480" cy="105.0" r="3" fill="#5a5850"/>
+      <text x="480" y="100.0" font-family="Space Mono,monospace" font-size="6" fill="#5a5850" text-anchor="middle">SHO</text>
+      <circle cx="510" cy="95.0" r="3" fill="#c04040"/>
+      <text x="510" y="90.0" font-family="Space Mono,monospace" font-size="6" fill="#c04040" text-anchor="middle">MAL</text>
+      <circle cx="535" cy="133.5" r="3" fill="#6090d0"/>
+      <text x="535" y="128.5" font-family="Space Mono,monospace" font-size="6" fill="#6090d0" text-anchor="middle">ATH</text>
+      <circle cx="555" cy="134.0" r="3" fill="#5a5850"/>
+      <text x="555" y="129.0" font-family="Space Mono,monospace" font-size="6" fill="#5a5850" text-anchor="middle">CHA</text>
+      <circle cx="590" cy="55.0" r="3" fill="#a0a020"/>
+      <text x="590" y="65.0" font-family="Space Mono,monospace" font-size="6" fill="#a0a020" text-anchor="middle">MUN</text>
+      <circle cx="615" cy="50.0" r="3" fill="#5a5850"/>
+      <text x="615" y="60.0" font-family="Space Mono,monospace" font-size="6" fill="#5a5850" text-anchor="middle">DEV</text>
+      <circle cx="640" cy="28.3" r="3" fill="#8040a0"/>
+      <text x="640" y="38.3" font-family="Space Mono,monospace" font-size="6" fill="#8040a0" text-anchor="middle">KOD</text>
+      <circle cx="675" cy="128.5" r="3" fill="#5a5850"/>
+      <text x="675" y="123.5" font-family="Space Mono,monospace" font-size="6" fill="#5a5850" text-anchor="middle">PAL</text>
+      <circle cx="705" cy="114.5" r="3" fill="#5a5850"/>
+      <text x="705" y="109.5" font-family="Space Mono,monospace" font-size="6" fill="#5a5850" text-anchor="middle">COI</text>
+      <circle cx="740" cy="90.0" r="3" fill="#5a5850"/>
+      <text x="740" y="85.0" font-family="Space Mono,monospace" font-size="6" fill="#5a5850" text-anchor="middle">KUS</text>
+      <circle cx="770" cy="80.0" r="3" fill="#c04040"/>
+      <text x="770" y="75.0" font-family="Space Mono,monospace" font-size="6" fill="#c04040" text-anchor="middle">MDK</text>
+      <circle cx="805" cy="98.0" r="3" fill="#5a5850"/>
+      <text x="805" y="93.0" font-family="Space Mono,monospace" font-size="6" fill="#5a5850" text-anchor="middle">VIR</text>
+      <circle cx="835" cy="133.5" r="3" fill="#4a7c4e"/>
+      <text x="835" y="128.5" font-family="Space Mono,monospace" font-size="6" fill="#4a7c4e" text-anchor="middle">NIL</text>
+      <circle cx="860" cy="96.5" r="3" fill="#5a5850"/>
+      <text x="860" y="91.5" font-family="Space Mono,monospace" font-size="6" fill="#5a5850" text-anchor="middle">MAN</text>
+      <circle cx="890" cy="95.0" r="3" fill="#d4891a"/>
+      <text x="890" y="90.0" font-family="Space Mono,monospace" font-size="6" fill="#d4891a" text-anchor="middle">KAL</text>
+    </svg>
+  </div>
+
+  </div>
+
+  <div class="section-title">Google Maps — Per Leg</div>
+  <div class="gmaps-link-row">
+    <a class="gmaps-day-btn" href="https://www.google.com/maps/dir/Kalpetta/Mananthavady/Gundlupet/Bandipur/Masinagudi/Ooty/@11.5,76.2,9z" target="_blank">📍 Leg 1 — Kalpetta → Ooty</a>
+    <a class="gmaps-day-btn" href="https://www.google.com/maps/dir/Ooty/Coonoor/Mettupalayam/Pollachi/Valparai/@10.8,76.8,9z" target="_blank">📍 Leg 2 — Ooty → Valparai</a>
+    <a class="gmaps-day-btn" href="https://www.google.com/maps/dir/Valparai/Sholayar/Athirappilly/Chalakudy/Munnar/@10.2,76.7,9z" target="_blank">📍 Leg 3 — Valparai → Munnar</a>
+    <a class="gmaps-day-btn" href="https://www.google.com/maps/dir/Munnar/Devikulam/Poopara/Theni/Kodaikanal/@10.1,77.1,9z" target="_blank">📍 Leg 4 — Munnar → Kodaikanal</a>
+    <a class="gmaps-day-btn" href="https://www.google.com/maps/dir/Kodaikanal/Palani/Coimbatore/Madikeri/@11.2,76.8,9z" target="_blank">📍 Leg 5 — Kodaikanal → Madikeri</a>
+    <a class="gmaps-day-btn" href="https://www.google.com/maps/dir/Madikeri/Virajpet/Nilambur/Mananthavady/Kalpetta/@11.5,76.2,9z" target="_blank">📍 Leg 6 — Madikeri → Kalpetta</a>
+  </div>
+
+  <div class="section-title">GPS Reference Points</div>
+  <div class="map-legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#d4891a;border-color:#8a5a10;"></div><div><div class="legend-text">Start/Finish · 11.6041°N 76.0831°E</div><div class="legend-name">Kalpetta, Wayanad, Kerala</div></div></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#4a7c4e;border-color:#2a4c2e;"></div><div><div class="legend-text">Night 1 · 11.4064°N 76.6950°E</div><div class="legend-name">Ooty (Udhagamandalam), Tamil Nadu</div></div></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#4060a0;border-color:#203060;"></div><div><div class="legend-text">Night 2 · 10.3272°N 76.9538°E</div><div class="legend-name">Valparai, Tamil Nadu</div></div></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#a0a020;border-color:#606010;"></div><div><div class="legend-text">Night 3 · 10.0889°N 77.0595°E</div><div class="legend-name">Munnar, Kerala</div></div></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#8040a0;border-color:#502060;"></div><div><div class="legend-text">Night 4 · 10.2381°N 77.4892°E</div><div class="legend-name">Kodaikanal, Tamil Nadu</div></div></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#c04040;border-color:#802020;"></div><div><div class="legend-text">Night 5 · 12.4244°N 75.7382°E</div><div class="legend-name">Madikeri, Coorg, Karnataka</div></div></div>
+  </div>
+</div>
+
+<!-- CHECKPOINTS -->
+<div id="view-checkpoints" class="view">
+  <div class="section-title">Police & Forest Checkpoints</div>
+  <div class="checkpoints-list">
+    <div class="checkpoint-item">
+      <div class="checkpoint-day-badge">Leg 1</div>
+      <div class="checkpoint-info">
+        <div class="checkpoint-name">KUTTA CHECKPOINT — Nagarhole Forest Corridor</div>
+        <div class="checkpoint-desc">State border crossing between Wayanad (Kerala) and Coorg (Karnataka) at the edge of Nagarhole National Park. Guards verify vehicle documents and usually ask your destination.</div>
+        <div class="checkpoint-alert">⚡ TACTIC: Have papers on top of your bag before you arrive. Be quick and confident. Say "Ooty" as your destination. No lingering.</div>
+      </div>
+    </div>
+    <div class="checkpoint-item">
+      <div class="checkpoint-day-badge">Leg 1</div>
+      <div class="checkpoint-info">
+        <div class="checkpoint-name">BANDIPUR TIGER RESERVE — Entry & Exit Gates</div>
+        <div class="checkpoint-desc">North gate (from Gundlupet) and south gate (into Mudumalai). Vehicle registration required. Nocturnal closure 9 PM–6 AM strictly enforced — plan your crossing for daylight. With 11 AM departure from Kalpetta you'll cross Bandipur around 2 PM — well within the window.</div>
+        <div class="checkpoint-alert">⚡ TACTIC: Maintain 30 km/h strictly — rangers use radar. Do not stop outside designated areas. Have passport and RC visible and accessible.</div>
+      </div>
+    </div>
+    <div class="checkpoint-item">
+      <div class="checkpoint-day-badge">Leg 1</div>
+      <div class="checkpoint-info">
+        <div class="checkpoint-name">MUDUMALAI TIGER RESERVE — Nilgiris Biosphere</div>
+        <div class="checkpoint-desc">Second reserve in the Nilgiris corridor. Same procedure as Bandipur. Road can be blocked 15–30 minutes when elephants or tigers are spotted crossing.</div>
+        <div class="checkpoint-alert">⚡ TACTIC: Build buffer time into this leg. Never accelerate inside the reserve under any circumstance.</div>
+      </div>
+    </div>
+    <div class="checkpoint-item">
+      <div class="checkpoint-day-badge">Leg 3</div>
+      <div class="checkpoint-info">
+        <div class="checkpoint-name">MALAKKAPPARA — The Forbidden Route Checkpoint</div>
+        <div class="checkpoint-desc">Deep in the Anaimalai–Sholayar corridor at the Tamil Nadu/Kerala border. Registration is mandatory — name, vehicle number, and destination. This is the gateway to the wildest leg of the loop.</div>
+        <div class="checkpoint-alert">⚡ TACTIC: They rarely inspect the bike. They just want to know who enters and exits the deep forest. Be polite, direct, and cooperative. Destination: "Munnar, Kerala."</div>
+      </div>
+    </div>
+    <div class="checkpoint-item" style="border-left-color:var(--amber);">
+      <div class="checkpoint-day-badge" style="color:var(--amber-light);">Leg 4</div>
+      <div class="checkpoint-info">
+        <div class="checkpoint-name">THENI TOWN POLICE — Avoid City Centre</div>
+        <div class="checkpoint-desc">Theni is known for active speed traps and document checks on the main highway. Not a forest checkpoint — routine urban traffic enforcement.</div>
+        <div class="checkpoint-alert" style="color:var(--green-light);background:rgba(74,124,78,0.08);border-color:rgba(74,124,78,0.2);">✅ ALTERNATIVE: Rural bypass roads south of Theni. Adds ~15 min but skips the city entirely and avoids police presence.</div>
+      </div>
+    </div>
+    <div class="checkpoint-item" style="border-left-color:var(--green);">
+      <div class="checkpoint-day-badge" style="color:var(--green-light);">Leg 6</div>
+      <div class="checkpoint-info">
+        <div class="checkpoint-name">NILAMBUR ROUTE — Preferred Re-entry to Wayanad</div>
+        <div class="checkpoint-desc">Return via Nilambur and the teak forests enters Wayanad from the south. Much less police presence than the main Karnataka highways. A calmer, more beautiful finish to the loop.</div>
+        <div class="checkpoint-alert" style="color:var(--green-light);background:rgba(74,124,78,0.08);border-color:rgba(74,124,78,0.2);">✅ RECOMMENDED return route. UNESCO heritage teak corridor, minimal traffic, spectacular close to the loop.</div>
+      </div>
+    </div>
+  </div>
+  <div class="section-title">Documents Checklist</div>
+  <div class="info-grid">
+    <div class="info-card">
+      <span class="info-card-icon">📄</span>
+      <h3>Mandatory Documents</h3>
+      <ul>
+        <li>Motorcycle driving licence</li>
+        <li>RC — Registration Certificate</li>
+        <li>Valid vehicle insurance</li>
+        <li>PUC — Pollution Under Control</li>
+        <li>Passport (foreign nationals)</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <span class="info-card-icon">📱</span>
+      <h3>Useful Apps on Route</h3>
+      <ul>
+        <li>Google Maps — download offline!</li>
+        <li>Maps.me — works without internet</li>
+        <li>WhatsApp — emergency contacts</li>
+        <li>Kerala Forest Dept permit portal</li>
+        <li>Zomato / Swiggy — food en route</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- INFO & GEAR -->
+<div id="view-info" class="view">
+  <div class="section-title">Gear & Preparation</div>
+  <div class="info-grid">
+    <div class="info-card">
+      <span class="info-card-icon">🪖</span>
+      <h3>Essential Riding Gear</h3>
+      <ul>
+        <li>Full-face helmet (mandatory)</li>
+        <li>Riding jacket with armour inserts</li>
+        <li>Riding gloves</li>
+        <li>Ankle-height riding boots</li>
+        <li>Waterproof rain suit</li>
+        <li>Back / spine protector</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <span class="info-card-icon">🛠</span>
+      <h3>Basic Tool Kit</h3>
+      <ul>
+        <li>Puncture repair kit + tyre levers</li>
+        <li>Chain tool + spare link</li>
+        <li>500ml engine oil (spare)</li>
+        <li>LED headlamp</li>
+        <li>Emergency tow strap</li>
+        <li>Zip ties + duct tape</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <span class="info-card-icon">💊</span>
+      <h3>First Aid / Medical</h3>
+      <ul>
+        <li>ORS sachets (dehydration)</li>
+        <li>Antihistamine — mosquitoes</li>
+        <li>Antiseptic + sterile bandages</li>
+        <li>Paracetamol / Ibuprofen</li>
+        <li>DEET 50%+ insect repellent</li>
+        <li>Water purification tablets</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <span class="info-card-icon">🌡</span>
+      <h3>Climate by Location</h3>
+      <ul>
+        <li>Kalpetta / Wayanad: 18–28°C</li>
+        <li>Madikeri / Coorg: 15–25°C, mist</li>
+        <li>Ooty: 12–22°C, cold nights</li>
+        <li>Valparai: 18–27°C, humid</li>
+        <li>Munnar: 13–23°C, very cold nights</li>
+        <li>Kodaikanal: 8–22°C, dense fog</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <span class="info-card-icon">⛽</span>
+      <h3>Fuel & Petrol Stations</h3>
+      <ul>
+        <li>Fill up whenever you can</li>
+        <li>Leg 3: max fill in Valparai</li>
+        <li>Leg 6: Nilambur route — sparse</li>
+        <li>Price: ~₹100–106/litre petrol</li>
+        <li>IOC / BPCL / HP in all towns</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <span class="info-card-icon">🏨</span>
+      <h3>Accommodation Suggestions</h3>
+      <ul>
+        <li>Night 1 · Ooty: Savoy Hotel (Heritage)</li>
+        <li>Night 2 · Valparai: Harishree / Forest Rest</li>
+        <li>Night 3 · Munnar: Blanket Hotel &amp; Spa</li>
+        <li>Night 4 · Kodaikanal: Carlton Hotel</li>
+        <li>Night 5 · Madikeri: Coorg Wilderness Resort</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-title">Waterfalls on Route</div>
+  <div class="info-grid">
+    <div class="info-card" style="border-left:3px solid #3060a0;">
+      <span class="info-card-icon">💧</span>
+      <h3>Irupu Falls — Off Route (optional)</h3>
+      <ul>
+        <li>Location: Nagarhole, Coorg, Karnataka</li>
+        <li>Height: ~60m</li>
+        <li>Detour from Kalpetta area · +8 km · not on main loop route</li>
+        <li>Best: Jun–Sep (monsoon season)</li>
+        <li>Entry fee: ₹30 per person</li>
+      </ul>
+    </div>
+    <div class="info-card" style="border-left:3px solid #3060a0;">
+      <span class="info-card-icon">💧</span>
+      <h3>Monkey Falls — Leg 3</h3>
+      <ul>
+        <li>Location: Foot of Valparai climb, TN</li>
+        <li>Height: ~15m — intimate & beautiful</li>
+        <li>Access: Directly off the highway</li>
+        <li>Warning: macaques steal food</li>
+        <li>No entry fee, park roadside</li>
+      </ul>
+    </div>
+    <div class="info-card" style="border-left:3px solid #3060a0;">
+      <span class="info-card-icon">💧</span>
+      <h3>Athirappilly Falls — Leg 3</h3>
+      <ul>
+        <li>Location: Chalakudy River, Kerala</li>
+        <li>Height: ~80m — largest in Kerala</li>
+        <li>Known as the "Niagara of India"</li>
+        <li>Entry fee: ₹60 per person</li>
+        <li>Crowded weekends — arrive early</li>
+      </ul>
+    </div>
+  <div class="section-title">🔥 Theyyam — March Opportunity</div>
+  <div class="alert-box" style="border-left-color:#c040c0;border-color:rgba(192,64,192,0.3);background:rgba(192,64,192,0.05);margin-bottom:16px;">
+    <div class="alert-box-title" style="color:#c060c0;">🔥 March is peak Theyyam season — you are riding through it</div>
+    <p>Theyyam is a sacred ritual art performed Dec–April at temples and family shrines (kavus) across North Kerala. It is not a show — it is a live divine ritual. March is one of the most active months. Your Leg 6 route passes through Nilambur and Mananthavady, which are in the Theyyam zone. Performances often start at dusk or midnight and run until dawn.</p>
+  </div>
+  <div class="info-grid" style="margin-bottom:16px;">
+    <div class="info-card" style="border-left:3px solid #c040c0;">
+      <span class="info-card-icon">🔥</span>
+      <h3>What is Theyyam</h3>
+      <ul>
+        <li>Ancient ritual art of North Kerala</li>
+        <li>Performer embodies a deity or ancestor spirit</li>
+        <li>400+ varieties — each unique costumes & makeup</li>
+        <li>Performed at kavus (sacred groves) and temples</li>
+        <li>Free to attend — respectful observation expected</li>
+      </ul>
+    </div>
+    <div class="info-card" style="border-left:3px solid #c040c0;">
+      <span class="info-card-icon">📍</span>
+      <h3>Where on your route</h3>
+      <ul>
+        <li>Nilambur (Leg 6) — Malappuram district kavus</li>
+        <li>Mananthavady (Leg 6) — Wayanad North shrines</li>
+        <li>Kalpetta area — ask your accommodation</li>
+        <li>Any village heading north toward Kannur</li>
+        <li>Core zone: Kannur & Kasaragod (~2h north of Kalpetta)</li>
+      </ul>
+    </div>
+    <div class="info-card" style="border-left:3px solid #c040c0;">
+      <span class="info-card-icon">⚠</span>
+      <h3>Important — Read This</h3>
+      <ul>
+        <li>Dates change year-to-year (Malayalam calendar)</li>
+        <li>No fixed schedule — confirm locally</li>
+        <li>Often starts at dusk or midnight, runs to dawn</li>
+        <li>Arrive quietly, observe respectfully</li>
+        <li>Photography: ask permission first</li>
+      </ul>
+    </div>
+    <div class="info-card" style="border-left:3px solid #c040c0;">
+      <span class="info-card-icon">🔗</span>
+      <h3>Confirm Before You Go</h3>
+      <ul>
+        <li><strong>keralatourism.org/theyyamcalendar</strong></li>
+        <li><strong>theyyam.in/calendar</strong> — Google Calendar integration</li>
+        <li><strong>dtpckannur.com/theyyam-calendar</strong> — Official DTPC</li>
+        <li>Ask at your Night 5 accommodation in Madikeri</li>
+        <li>Ask any local in Mananthavady on Leg 6</li>
+      </ul>
+    </div>
+  </div>
+</div>
+  <span class="footer-text">The Ghats Loop · ~1310 km · 6 Legs · Western Ghats · South India</span>
+  <span class="footer-text">🟢 Pick up 11:00 AM &nbsp;|&nbsp; 🔴 Return bike 10:30 AM day after Leg 6</span>
+</div>
+
+<script>
+const days = {
+  1:{title:"Kalpetta → Ooty",subtitle:"Kalpetta → Mananthavady → Nagarhole → Bandipur → Mudumalai → Ooty",states:"Kerala → Karnataka → Tamil Nadu",km:250,hours:"~8–9h",intensity:"Very High",intensityClass:"intensity-very-high",color:"#e06020",
+    desc:"The opening day — and the most intense. You pick up the bike at 11 AM and immediately head into Nagarhole's dense jungle, cross the Kutta checkpoint, and push through two tiger reserves back to back — Bandipur and Mudumalai — before the legendary 36-bend climb to Ooty. With an 11 AM start you'll hit Bandipur around 2 PM: well within daylight. No stops beyond fuel.",
+    route:[{name:"Kalpetta",note:"11:00 AM · Pick up bike · departure immediately"},{name:"Mananthavady",note:"First fuel stop · 30 km · don't linger"},{name:"Kutta Forest Checkpoint",note:"⚠ Papers ready — say 'Ooty' as destination"},{name:"Nagarhole Forest",note:"Wildlife zone · 30 km/h max"},{name:"Gundlupet",note:"Last fuel before Bandipur · fill completely"},{name:"Bandipur Tiger Reserve",note:"🐯 30 km/h strict · no stopping · through by 5 PM"},{name:"Mudumalai Tiger Reserve",note:"🐘 Second reserve — push through, no lingering"},{name:"36 Hairpin Bends — Kalhatti",note:"Final climb to Ooty"},{name:"Ooty (Udhagamandalam)",note:"Night 1 · 2240m · arrive ~7 PM"}],
+    tips:[
+      "11 AM start means Bandipur at ~2 PM — you have daylight margin but zero time to waste. No long stops.",
+      "Reserves close 9 PM–6 AM — with 11 AM departure you'll clear both well before dark.",
+      "Kutta Checkpoint: say 'Ooty' as destination. Papers on top of the bag. Quick and confident.",
+      "Fuel in Mananthavady AND Gundlupet — no stations inside the reserves.",
+      "30 km/h inside both reserves is radar-enforced. Non-negotiable.",
+      "Irupu Falls: skip it today. With 11 AM start there's no time — you'll see better waterfalls later.",
+      "Book Ooty accommodation in advance — the town fills up on weekends."
+    ],
+    gmapsUrl:"https://www.google.com/maps/dir/Kalpetta/Mananthavady/Gundlupet/Bandipur/Masinagudi/Ooty/@11.5,76.2,9z"},
+  2:{title:"Ooty → Valparai",subtitle:"Ooty → Coonoor → Mettupalayam → Pollachi → Valparai",states:"Tamil Nadu",km:210,hours:"~6.5h",intensity:"Technical",intensityClass:"intensity-technical",color:"#6aaf70",
+    desc:"Pure technical riding. Descend from Ooty through the tea-shrouded lanes of Coonoor, drop into the sweltering Coimbatore plains, then attack the 40 numbered hairpin bends of Valparai — widely considered the best motorcycle road in South India. Monkey Falls waits at the base of the climb.",
+    route:[{name:"Ooty",note:"Early start · final Nilgiris breakfast"},{name:"Coonoor",note:"Hill station · 19 km · optional tea estate stop"},{name:"Mettupalayam",note:"Drop to the plains · famous toy train terminus"},{name:"Monkey Falls",note:"💧 Roadside waterfall · stop before the climb"},{name:"Pollachi",note:"Flat plains · fuel and lunch"},{name:"40 Hairpin Bends — Valparai",note:"The most technically rewarding climb of the loop"},{name:"Valparai",note:"Night 2 · 1480m · cardamom and tea country"}],
+    tips:["The 40 bends of Valparai are numbered — photograph the marker at each one.","Monkey Falls: macaques are bold and will steal anything — keep food hidden.","Mettupalayam–Pollachi is flat and can hit 35°C+ — hydrate constantly.","Valparai viewpoints look into deep cardamom valleys — allow time for stops.","Valparai has only ONE petrol station — fill to the absolute brim before leaving.","Anamalai Hills elephants cross the road at dawn and dusk — ride alert."],
+    gmapsUrl:"https://www.google.com/maps/dir/Ooty/Coonoor/Mettupalayam/Pollachi/Valparai/@10.8,76.8,9z"},
+  3:{title:"Valparai → Munnar",subtitle:"Valparai → Sholayar → Malakkappara → Athirappilly → Munnar",states:"Tamil Nadu → Kerala",km:170,hours:"~6–7h",intensity:"Maximum",intensityClass:"intensity-maximum",color:"#e04040",
+    desc:"The wildest 150 km of the entire loop. Dense jungle, a mandatory forest checkpoint, and the thundering Athirappilly Falls — Kerala's largest waterfall at 80m. This route doesn't appear on all maps. This is where the real adventure begins.",
+    route:[{name:"Valparai",note:"Fill the tank to the brim — very few stations ahead"},{name:"Sholayar Dam",note:"Reservoir in restricted forest zone"},{name:"Malakkappara",note:"⚠ MANDATORY CHECKPOINT — register name + plate"},{name:"Anaimalai Forest Corridor",note:"Densest jungle on the entire loop"},{name:"Athirappilly Falls",note:"💧 80m — Niagara of India · entry ₹60"},{name:"Chalakudy",note:"First Kerala town · fuel and food"},{name:"Munnar",note:"Night 3 · 1600m · world-famous tea plantations"}],
+    tips:["Malakkappara: mandatory registration — just name and plate. Cooperate and move on.","This route can be closed during elections, floods, or forest lockdowns — verify beforehand.","Jungle track between Sholayar and Athirappilly can have mud in monsoon — check tyre condition.","Athirappilly is best from the lower viewpoint — follow the signs, not the crowd.","Chalakudy–Munnar is slow due to tea truck traffic — allow extra buffer time.","Book Munnar accommodation early — fills up rapidly on weekends."],
+    gmapsUrl:"https://www.google.com/maps/dir/Valparai/Sholayar/Athirappilly/Chalakudy/Munnar/@10.2,76.7,9z"},
+  4:{title:"Munnar → Kodaikanal",subtitle:"Munnar → Devikulam → Poopara → Theni → Kodaikanal",states:"Kerala → Tamil Nadu",km:180,hours:"~6h",intensity:"Scenic",intensityClass:"intensity-scenic",color:"#5090c0",
+    desc:"The most photogenic day of the loop. The world's highest tea plantations carpet every hillside in geometric green. A gentle transition from deep Kerala into the mist-soaked Palani Hills of Tamil Nadu. Bypass Theni city centre — they run active speed checks there.",
+    route:[{name:"Munnar",note:"Morning mist over the tea estates — best light of the trip"},{name:"Devikulam",note:"Mountain lake · 15 km"},{name:"Poopara",note:"High-altitude cardamom zone"},{name:"Top Station (optional)",note:"Kerala's highest viewpoint at 2100m · +12 km detour"},{name:"Theni — use bypass",note:"⚠ Rural bypass south of city — avoid main road"},{name:"Batlagundu",note:"Ascent junction toward Kodaikanal"},{name:"Kodaikanal",note:"Night 4 · 2133m · dense fog · coldest night"}],
+    tips:["Theni city centre has regular speed traps — rural southern bypass adds only 15 minutes.","Top Station: 12 km detour but among the best views in Kerala — highly recommended.","Poopara–Theni road can have slow tea transport lorries — build patience into the schedule.","Kodaikanal has near-constant fog — carry a headlamp and waterproof gear.","Sunset over Kodaikanal Lake is the perfect penultimate riding night of the loop.","Minimum temperature: ~8°C — the coldest night of the entire ride."],
+    gmapsUrl:"https://www.google.com/maps/dir/Munnar/Devikulam/Poopara/Theni/Kodaikanal/@10.1,77.1,9z"},
+  5:{title:"Kodaikanal → Madikeri",subtitle:"Kodaikanal → Palani → Coimbatore → Kushalnagar → Madikeri",states:"Tamil Nadu → Karnataka",km:330,hours:"~8.5h",intensity:"Moderate",intensityClass:"intensity-moderate",color:"#80c060",
+    desc:"The penultimate day — a long but manageable descent from the Palani Hills back into the mist of Coorg. Pass the famous Murugan temple at Palani, bypass Coimbatore, and climb back into Karnataka. Madikeri is your last night with the bike, and a natural base if you want to scout Theyyam options in the area.",
+    route:[{name:"Kodaikanal",note:"Early descent through eucalyptus and mist"},{name:"Palani",note:"Famous Murugan hilltop temple · 65 km · worth 30 min"},{name:"Dindigul",note:"Junction city · fuel and lunch"},{name:"Coimbatore",note:"Use NH 544 ring road bypass — avoid city centre"},{name:"Kushalnagar",note:"Coorg gateway · Tibetan settlement"},{name:"Madikeri",note:"Night 5 · Last night with the bike · 1100m · Coorg coffee country"}],
+    tips:[
+      "Palani temple at dawn is stunning — worth 30 minutes if you leave Kodaikanal by 6 AM.",
+      "Coimbatore: use the NH 544 ring road bypass — city centre adds 45–60 min.",
+      "Madikeri is your last night on the bike — do a full check: chain, tyres, oil, fuel.",
+      "🔥 THEYYAM: Ask at your Madikeri accommodation about any kavus nearby in Wayanad or Kannur. March is still active season.",
+      "Stock up on Coorg coffee and cardamom in Madikeri market — last chance.",
+      "Rest well — tomorrow is the short final ride home, then the afternoon is yours."
+    ],
+    gmapsUrl:"https://www.google.com/maps/dir/Kodaikanal/Palani/Coimbatore/Madikeri/@11.2,76.8,9z"},
+  6:{title:"Madikeri → Kalpetta",subtitle:"Madikeri → Virajpet → Nilambur → Mananthavady → Kalpetta",states:"Karnataka → Kerala",km:200,hours:"~5h",intensity:"High",intensityClass:"intensity-high",color:"#e8a020",
+    desc:"The final ride — and the shortest. A clean close of the loop through familiar Wayanad country. Back in Kalpetta by noon, you have the entire afternoon and evening free. Mar 10 evening or Mar 11 are your windows for Theyyam — or catch a bus from Kalpetta to Kannur (3h) for the real heart of Theyyam country. The bike goes back Thursday morning.",
+    route:[{name:"Madikeri",note:"Relaxed start — you have the whole day"},{name:"Virajpet",note:"Coorg market town · last Karnataka stop"},{name:"Nilambur junction",note:"🌲 Teak forest corridor · scenic entry to Kerala"},{name:"Mananthavady",note:"🔥 Ask locals about Theyyam tonight"},{name:"Kalpetta",note:"🏁 Loop complete · arrive ~noon · afternoon free"}],
+    tips:[
+      "Short day — no rush. But leave Madikeri by 8 AM to have the full afternoon free.",
+      "🔥 THEYYAM: Tonight (Mar 10) or tomorrow (Mar 11) are your windows. Ask in Mananthavady or at your Kalpetta accommodation.",
+      "🚌 BUS OPTION: Kalpetta → Kannur is ~3 hours. Kannur is the heart of Theyyam country. Buses run regularly.",
+      "The bike returns Thursday Mar 12 at 10:30 AM — you have two nights in Kalpetta if you want to stay for Theyyam.",
+      "Nilambur teak forests: stop the bike and walk in for 5 minutes. UNESCO heritage. Worth it.",
+      "Celebrate in Kalpetta market — chai and a full meal. 1080 km. The loop is closed."
+    ],
+    gmapsUrl:"https://www.google.com/maps/dir/Madikeri/Virajpet/Nilambur/Mananthavady/Kalpetta/@11.5,76.2,9z"}
+};
+
+function showView(id) {
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('view-'+id).classList.add('active');
+  const order=['dashboard','days','map','checkpoints','info'];
+  document.querySelectorAll('.nav-btn')[order.indexOf(id)].classList.add('active');
+}
+
+const elevProfiles = {
+  1: `<svg viewBox="0 0 696 195" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:195px;display:block;"><defs><linearGradient id="eli1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#e06020" stop-opacity="0.3"/><stop offset="100%" stop-color="#e06020" stop-opacity="0.03"/></linearGradient></defs><line x1="42" y1="20.3" x2="682" y2="20.3" stroke="#ffffff" stroke-width="0.4" opacity="0.08"/><text x="38" y="23.3" font-family="Space Mono,monospace" font-size="6" fill="#cccccc" text-anchor="end" opacity="0.7">2200m</text><line x1="42" y1="45.3" x2="682" y2="45.3" stroke="#ffffff" stroke-width="0.4" opacity="0.08"/><text x="38" y="48.3" font-family="Space Mono,monospace" font-size="6" fill="#cccccc" text-anchor="end" opacity="0.7">1600m</text><line x1="42" y1="78.7" x2="682" y2="78.7" stroke="#ffffff" stroke-width="0.4" opacity="0.08"/><text x="38" y="81.7" font-family="Space Mono,monospace" font-size="6" fill="#cccccc" text-anchor="end" opacity="0.7">800m</text><line x1="42" y1="103.7" x2="682" y2="103.7" stroke="#ffffff" stroke-width="0.4" opacity="0.08"/><text x="38" y="106.7" font-family="Space Mono,monospace" font-size="6" fill="#cccccc" text-anchor="end" opacity="0.7">200m</text><path d="M42,78.7 C53.2,79.0 69.5,79.0 92,79.9 C114.5,80.8 117.2,83.7 142,82.8 C166.8,81.9 179.5,77.7 202,75.8 C224.5,73.9 219.5,76.2 242,74.5 C264.5,72.8 277.2,72.9 302,68.2 C326.8,63.5 329.5,61.7 352,53.7 C374.5,45.7 379.5,40.7 402,32.8 C424.5,24.9 434.0,20.6 452,18.7 C470.0,16.8 464.0,18.5 482,24.5 C500.0,30.5 509.5,43.4 532,45.3 C554.5,47.2 559.5,37.5 582,32.8 C604.5,28.1 609.5,27.7 632,24.5 C654.5,21.3 670.8,20.0 682,18.7 L682,120 L42,120 Z" fill="url(#eli1)" stroke="none"/><path d="M42,78.7 C53.2,79.0 69.5,79.0 92,79.9 C114.5,80.8 117.2,83.7 142,82.8 C166.8,81.9 179.5,77.7 202,75.8 C224.5,73.9 219.5,76.2 242,74.5 C264.5,72.8 277.2,72.9 302,68.2 C326.8,63.5 329.5,61.7 352,53.7 C374.5,45.7 379.5,40.7 402,32.8 C424.5,24.9 434.0,20.6 452,18.7 C470.0,16.8 464.0,18.5 482,24.5 C500.0,30.5 509.5,43.4 532,45.3 C554.5,47.2 559.5,37.5 582,32.8 C604.5,28.1 609.5,27.7 632,24.5 C654.5,21.3 670.8,20.0 682,18.7" fill="none" stroke="#e06020" stroke-width="2.2" stroke-linejoin="round"/><line x1="42" y1="155" x2="682" y2="155" stroke="#e06020" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.45"/><line x1="42" y1="83.7" x2="42" y2="147" stroke="#e8a020" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="42" cy="78.7" r="4.5" fill="#e8a020" opacity="0.18"/><circle cx="42" cy="78.7" r="3" fill="#e8a020"/><circle cx="42" cy="78.7" r="1.2" fill="#ffffff"/><circle cx="42" cy="155" r="5" fill="#e8a020" opacity="0.15"/><circle cx="42" cy="155" r="3.5" fill="#e8a020"/><circle cx="42" cy="155" r="1.5" fill="#ffffff"/><text x="50" y="133" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="start" letter-spacing="0.3" font-weight="600">KALPETTA</text><text x="50" y="143" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="start">800m</text><line x1="142" y1="87.8" x2="142" y2="147" stroke="#c04040" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="142" cy="82.8" r="4.5" fill="#c04040" opacity="0.18"/><circle cx="142" cy="82.8" r="3" fill="#c04040"/><circle cx="142" cy="82.8" r="1.2" fill="#ffffff"/><circle cx="142" cy="155" r="5" fill="#c04040" opacity="0.15"/><circle cx="142" cy="155" r="3.5" fill="#c04040"/><circle cx="142" cy="155" r="1.5" fill="#ffffff"/><text x="142" y="172" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="middle" letter-spacing="0.3" font-weight="600">KUTTA CP</text><text x="142" y="180" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="middle">⚠ checkpoint</text><line x1="242" y1="79.5" x2="242" y2="147" stroke="#4a7c4e" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="242" cy="74.5" r="4.5" fill="#4a7c4e" opacity="0.18"/><circle cx="242" cy="74.5" r="3" fill="#4a7c4e"/><circle cx="242" cy="74.5" r="1.2" fill="#ffffff"/><circle cx="242" cy="155" r="5" fill="#4a7c4e" opacity="0.15"/><circle cx="242" cy="155" r="3.5" fill="#4a7c4e"/><circle cx="242" cy="155" r="1.5" fill="#ffffff"/><text x="242" y="133" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="middle" letter-spacing="0.3" font-weight="600">BANDIPUR</text><text x="242" y="143" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="middle">🐯 30km/h</text><line x1="327" y1="66.0" x2="327" y2="147" stroke="#4a7c4e" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="327" cy="61.0" r="4.5" fill="#4a7c4e" opacity="0.18"/><circle cx="327" cy="61.0" r="3" fill="#4a7c4e"/><circle cx="327" cy="61.0" r="1.2" fill="#ffffff"/><circle cx="327" cy="155" r="5" fill="#4a7c4e" opacity="0.15"/><circle cx="327" cy="155" r="3.5" fill="#4a7c4e"/><circle cx="327" cy="155" r="1.5" fill="#ffffff"/><text x="327" y="172" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="middle" letter-spacing="0.3" font-weight="600">MASINAGUDI</text><text x="327" y="180" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="middle">🐘 reserve</text><line x1="682" y1="23.7" x2="682" y2="147" stroke="#4a7c4e" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="682" cy="18.7" r="4.5" fill="#4a7c4e" opacity="0.18"/><circle cx="682" cy="18.7" r="3" fill="#4a7c4e"/><circle cx="682" cy="18.7" r="1.2" fill="#ffffff"/><circle cx="682" cy="155" r="5" fill="#4a7c4e" opacity="0.15"/><circle cx="682" cy="155" r="3.5" fill="#4a7c4e"/><circle cx="682" cy="155" r="1.5" fill="#ffffff"/><text x="674" y="133" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="end" letter-spacing="0.3" font-weight="600">OOTY</text><text x="674" y="143" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="end">2240m</text><circle cx="452" cy="18.7" r="5" fill="#ffffff" opacity="0.9"/><circle cx="452" cy="18.7" r="2.5" fill="#e06020"/><text x="452" y="8.7" font-family="Space Mono,monospace" font-size="7" fill="#ffffff" text-anchor="middle" font-weight="700">▲ 2240m</text><circle cx="142" cy="82.8" r="5" fill="#4a6080" opacity="0.9"/><circle cx="142" cy="82.8" r="2.5" fill="#aaccee"/><text x="148" y="96.8" font-family="Space Mono,monospace" font-size="7" fill="#aaccee" text-anchor="start">▼ 700m</text></svg>`,
+  2: `<svg viewBox="0 0 696 195" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:195px;display:block;"><defs><linearGradient id="eli2" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#6aaf70" stop-opacity="0.3"/><stop offset="100%" stop-color="#6aaf70" stop-opacity="0.03"/></linearGradient></defs><line x1="42" y1="20.3" x2="682" y2="20.3" stroke="#ffffff" stroke-width="0.4" opacity="0.08"/><text x="38" y="23.3" font-family="Space Mono,monospace" font-size="6" fill="#cccccc" text-anchor="end" opacity="0.7">2200m</text><line x1="42" y1="45.3" x2="682" y2="45.3" stroke="#ffffff" stroke-width="0.4" opacity="0.08"/><text x="38" y="48.3" font-family="Space Mono,monospace" font-size="6" fill="#cccccc" text-anchor="end" opacity="0.7">1600m</text><line x1="42" y1="78.7" x2="682" y2="78.7" stroke="#ffffff" stroke-width="0.4" opacity="0.08"/><text x="38" y="81.7" font-family="Space Mono,monospace" font-size="6" fill="#cccccc" text-anchor="end" opacity="0.7">800m</text><line x1="42" y1="103.7" x2="682" y2="103.7" stroke="#ffffff" stroke-width="0.4" opacity="0.08"/><text x="38" y="106.7" font-family="Space Mono,monospace" font-size="6" fill="#cccccc" text-anchor="end" opacity="0.7">200m</text><path d="M42,18.7 C55.5,22.3 72.8,25.2 102,34.9 C131.2,44.6 140.5,47.6 172,62.0 C203.5,76.4 210.5,90.1 242,98.7 C273.5,107.3 280.5,99.9 312,100.3 C343.5,100.7 352.8,102.3 382,100.3 C411.2,98.3 415.0,102.5 442,91.2 C469.0,80.0 472.8,59.5 502,50.3 C531.2,41.1 542.8,50.3 572,50.3 C601.2,50.3 607.2,50.3 632,50.3 C656.8,50.3 670.8,50.3 682,50.3 L682,120 L42,120 Z" fill="url(#eli2)" stroke="none"/><path d="M42,18.7 C55.5,22.3 72.8,25.2 102,34.9 C131.2,44.6 140.5,47.6 172,62.0 C203.5,76.4 210.5,90.1 242,98.7 C273.5,107.3 280.5,99.9 312,100.3 C343.5,100.7 352.8,102.3 382,100.3 C411.2,98.3 415.0,102.5 442,91.2 C469.0,80.0 472.8,59.5 502,50.3 C531.2,41.1 542.8,50.3 572,50.3 C601.2,50.3 607.2,50.3 632,50.3 C656.8,50.3 670.8,50.3 682,50.3" fill="none" stroke="#6aaf70" stroke-width="2.2" stroke-linejoin="round"/><line x1="42" y1="155" x2="682" y2="155" stroke="#6aaf70" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.45"/><line x1="42" y1="23.7" x2="42" y2="147" stroke="#4a7c4e" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="42" cy="18.7" r="4.5" fill="#4a7c4e" opacity="0.18"/><circle cx="42" cy="18.7" r="3" fill="#4a7c4e"/><circle cx="42" cy="18.7" r="1.2" fill="#ffffff"/><circle cx="42" cy="155" r="5" fill="#4a7c4e" opacity="0.15"/><circle cx="42" cy="155" r="3.5" fill="#4a7c4e"/><circle cx="42" cy="155" r="1.5" fill="#ffffff"/><text x="50" y="133" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="start" letter-spacing="0.3" font-weight="600">OOTY</text><text x="50" y="143" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="start">2240m</text><line x1="102" y1="39.9" x2="102" y2="147" stroke="#888" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="102" cy="34.9" r="4.5" fill="#888" opacity="0.18"/><circle cx="102" cy="34.9" r="3" fill="#888"/><circle cx="102" cy="34.9" r="1.2" fill="#ffffff"/><circle cx="102" cy="155" r="5" fill="#888" opacity="0.15"/><circle cx="102" cy="155" r="3.5" fill="#888"/><circle cx="102" cy="155" r="1.5" fill="#ffffff"/><text x="102" y="172" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="middle" letter-spacing="0.3" font-weight="600">COONOOR</text><text x="102" y="180" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="middle">tea estates</text><line x1="242" y1="103.7" x2="242" y2="147" stroke="#888" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="242" cy="98.7" r="4.5" fill="#888" opacity="0.18"/><circle cx="242" cy="98.7" r="3" fill="#888"/><circle cx="242" cy="98.7" r="1.2" fill="#ffffff"/><circle cx="242" cy="155" r="5" fill="#888" opacity="0.15"/><circle cx="242" cy="155" r="3.5" fill="#888"/><circle cx="242" cy="155" r="1.5" fill="#ffffff"/><text x="242" y="133" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="middle" letter-spacing="0.3" font-weight="600">METTUPALAYAM</text><text x="242" y="143" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="middle">plains</text><line x1="372" y1="105.3" x2="372" y2="147" stroke="#888" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="372" cy="100.3" r="4.5" fill="#888" opacity="0.18"/><circle cx="372" cy="100.3" r="3" fill="#888"/><circle cx="372" cy="100.3" r="1.2" fill="#ffffff"/><circle cx="372" cy="155" r="5" fill="#888" opacity="0.15"/><circle cx="372" cy="155" r="3.5" fill="#888"/><circle cx="372" cy="155" r="1.5" fill="#ffffff"/><text x="372" y="172" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="middle" letter-spacing="0.3" font-weight="600">POLLACHI</text><text x="372" y="180" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="middle">fuel + lunch</text><line x1="442" y1="96.2" x2="442" y2="147" stroke="#6090d0" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="442" cy="91.2" r="4.5" fill="#6090d0" opacity="0.18"/><circle cx="442" cy="91.2" r="3" fill="#6090d0"/><circle cx="442" cy="91.2" r="1.2" fill="#ffffff"/><circle cx="442" cy="155" r="5" fill="#6090d0" opacity="0.15"/><circle cx="442" cy="155" r="3.5" fill="#6090d0"/><circle cx="442" cy="155" r="1.5" fill="#ffffff"/><text x="442" y="133" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="middle" letter-spacing="0.3" font-weight="600">MONKEY FALLS</text><text x="442" y="143" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="middle">💧 stop</text><line x1="682" y1="55.3" x2="682" y2="147" stroke="#4060a0" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="682" cy="50.3" r="4.5" fill="#4060a0" opacity="0.18"/><circle cx="682" cy="50.3" r="3" fill="#4060a0"/><circle cx="682" cy="50.3" r="1.2" fill="#ffffff"/><circle cx="682" cy="155" r="5" fill="#4060a0" opacity="0.15"/><circle cx="682" cy="155" r="3.5" fill="#4060a0"/><circle cx="682" cy="155" r="1.5" fill="#ffffff"/><text x="674" y="172" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="end" letter-spacing="0.3" font-weight="600">VALPARAI</text><text x="674" y="180" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="end">1480m · 40 bends</text><circle cx="42" cy="18.7" r="5" fill="#ffffff" opacity="0.9"/><circle cx="42" cy="18.7" r="2.5" fill="#6aaf70"/><text x="48" y="8.7" font-family="Space Mono,monospace" font-size="7" fill="#ffffff" text-anchor="start" font-weight="700">▲ 2240m</text><circle cx="312" cy="100.3" r="5" fill="#4a6080" opacity="0.9"/><circle cx="312" cy="100.3" r="2.5" fill="#aaccee"/><text x="312" y="114.3" font-family="Space Mono,monospace" font-size="7" fill="#aaccee" text-anchor="middle">▼ 280m</text></svg>`,
+  3: `<svg viewBox="0 0 696 195" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:195px;display:block;"><defs><linearGradient id="eli3" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#e04040" stop-opacity="0.3"/><stop offset="100%" stop-color="#e04040" stop-opacity="0.03"/></linearGradient></defs><line x1="42" y1="20.3" x2="682" y2="20.3" stroke="#ffffff" stroke-width="0.4" opacity="0.08"/><text x="38" y="23.3" font-family="Space Mono,monospace" font-size="6" fill="#cccccc" text-anchor="end" opacity="0.7">2200m</text><line x1="42" y1="45.3" x2="682" y2="45.3" stroke="#ffffff" stroke-width="0.4" opacity="0.08"/><text x="38" y="48.3" font-family="Space Mono,monospace" font-size="6" fill="#cccccc" text-anchor="end" opacity="0.7">1600m</text><line x1="42" y1="78.7" x2="682" y2="78.7" stroke="#ffffff" stroke-width="0.4" opacity="0.08"/><text x="38" y="81.7" font-family="Space Mono,monospace" font-size="6" fill="#cccccc" text-anchor="end" opacity="0.7">800m</text><line x1="42" y1="103.7" x2="682" y2="103.7" stroke="#ffffff" stroke-width="0.4" opacity="0.08"/><text x="38" y="106.7" font-family="Space Mono,monospace" font-size="6" fill="#cccccc" text-anchor="end" opacity="0.7">200m</text><path d="M42,50.3 C60.0,55.7 88.2,66.2 122,74.5 C155.8,82.8 160.5,86.1 192,87.0 C223.5,87.9 235.0,78.7 262,78.7 C289.0,78.7 291.8,83.3 312,87.0 C332.2,90.7 331.8,89.9 352,95.3 C372.2,100.7 381.8,107.2 402,110.8 C422.2,114.4 421.8,111.7 442,111.2 C462.2,110.7 469.5,112.3 492,108.7 C514.5,105.1 517.2,103.0 542,95.3 C566.8,87.6 577.2,83.9 602,74.5 C626.8,65.1 634.0,60.3 652,53.7 C670.0,47.1 675.2,47.2 682,45.3 L682,120 L42,120 Z" fill="url(#eli3)" stroke="none"/><path d="M42,50.3 C60.0,55.7 88.2,66.2 122,74.5 C155.8,82.8 160.5,86.1 192,87.0 C223.5,87.9 235.0,78.7 262,78.7 C289.0,78.7 291.8,83.3 312,87.0 C332.2,90.7 331.8,89.9 352,95.3 C372.2,100.7 381.8,107.2 402,110.8 C422.2,114.4 421.8,111.7 442,111.2 C462.2,110.7 469.5,112.3 492,108.7 C514.5,105.1 517.2,103.0 542,95.3 C566.8,87.6 577.2,83.9 602,74.5 C626.8,65.1 634.0,60.3 652,53.7 C670.0,47.1 675.2,47.2 682,45.3" fill="none" stroke="#e04040" stroke-width="2.2" stroke-linejoin="round"/><line x1="42" y1="155" x2="682" y2="155" stroke="#e04040" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.45"/><line x1="42" y1="55.3" x2="42" y2="147" stroke="#4060a0" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="42" cy="50.3" r="4.5" fill="#4060a0" opacity="0.18"/><circle cx="42" cy="50.3" r="3" fill="#4060a0"/><circle cx="42" cy="50.3" r="1.2" fill="#ffffff"/><circle cx="42" cy="155" r="5" fill="#4060a0" opacity="0.15"/><circle cx="42" cy="155" r="3.5" fill="#4060a0"/><circle cx="42" cy="155" r="1.5" fill="#ffffff"/><text x="50" y="133" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="start" letter-spacing="0.3" font-weight="600">VALPARAI</text><text x="50" y="143" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="start">1480m</text><line x1="192" y1="92.0" x2="192" y2="147" stroke="#888" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="192" cy="87.0" r="4.5" fill="#888" opacity="0.18"/><circle cx="192" cy="87.0" r="3" fill="#888"/><circle cx="192" cy="87.0" r="1.2" fill="#ffffff"/><circle cx="192" cy="155" r="5" fill="#888" opacity="0.15"/><circle cx="192" cy="155" r="3.5" fill="#888"/><circle cx="192" cy="155" r="1.5" fill="#ffffff"/><text x="192" y="172" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="middle" letter-spacing="0.3" font-weight="600">SHOLAYAR</text><text x="192" y="180" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="middle">forest zone</text><line x1="262" y1="83.7" x2="262" y2="147" stroke="#c04040" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="262" cy="78.7" r="4.5" fill="#c04040" opacity="0.18"/><circle cx="262" cy="78.7" r="3" fill="#c04040"/><circle cx="262" cy="78.7" r="1.2" fill="#ffffff"/><circle cx="262" cy="155" r="5" fill="#c04040" opacity="0.15"/><circle cx="262" cy="155" r="3.5" fill="#c04040"/><circle cx="262" cy="155" r="1.5" fill="#ffffff"/><text x="262" y="133" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="middle" letter-spacing="0.3" font-weight="600">MALAKKAPPARA</text><text x="262" y="143" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="middle">⚠ register</text><line x1="402" y1="115.8" x2="402" y2="147" stroke="#6090d0" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="402" cy="110.8" r="4.5" fill="#6090d0" opacity="0.18"/><circle cx="402" cy="110.8" r="3" fill="#6090d0"/><circle cx="402" cy="110.8" r="1.2" fill="#ffffff"/><circle cx="402" cy="155" r="5" fill="#6090d0" opacity="0.15"/><circle cx="402" cy="155" r="3.5" fill="#6090d0"/><circle cx="402" cy="155" r="1.5" fill="#ffffff"/><text x="402" y="172" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="middle" letter-spacing="0.3" font-weight="600">ATHIRAPPILLY</text><text x="402" y="180" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="middle">💧 80m falls</text><line x1="442" y1="116.2" x2="442" y2="147" stroke="#888" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="442" cy="111.2" r="4.5" fill="#888" opacity="0.18"/><circle cx="442" cy="111.2" r="3" fill="#888"/><circle cx="442" cy="111.2" r="1.2" fill="#ffffff"/><circle cx="442" cy="155" r="5" fill="#888" opacity="0.15"/><circle cx="442" cy="155" r="3.5" fill="#888"/><circle cx="442" cy="155" r="1.5" fill="#ffffff"/><text x="442" y="133" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="middle" letter-spacing="0.3" font-weight="600">CHALAKUDY</text><text x="442" y="143" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="middle">Kerala plains</text><line x1="682" y1="50.3" x2="682" y2="147" stroke="#a0a020" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="682" cy="45.3" r="4.5" fill="#a0a020" opacity="0.18"/><circle cx="682" cy="45.3" r="3" fill="#a0a020"/><circle cx="682" cy="45.3" r="1.2" fill="#ffffff"/><circle cx="682" cy="155" r="5" fill="#a0a020" opacity="0.15"/><circle cx="682" cy="155" r="3.5" fill="#a0a020"/><circle cx="682" cy="155" r="1.5" fill="#ffffff"/><text x="674" y="172" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="end" letter-spacing="0.3" font-weight="600">MUNNAR</text><text x="674" y="180" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="end">1600m</text><circle cx="682" cy="45.3" r="5" fill="#ffffff" opacity="0.9"/><circle cx="682" cy="45.3" r="2.5" fill="#e04040"/><text x="676" y="35.3" font-family="Space Mono,monospace" font-size="7" fill="#ffffff" text-anchor="end" font-weight="700">▲ 1600m</text><circle cx="442" cy="111.2" r="5" fill="#4a6080" opacity="0.9"/><circle cx="442" cy="111.2" r="2.5" fill="#aaccee"/><text x="442" y="125.2" font-family="Space Mono,monospace" font-size="7" fill="#aaccee" text-anchor="middle">▼ 20m</text></svg>`,
+  4: `<svg viewBox="0 0 696 195" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:195px;display:block;"><defs><linearGradient id="eli4" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#5090c0" stop-opacity="0.3"/><stop offset="100%" stop-color="#5090c0" stop-opacity="0.03"/></linearGradient></defs><line x1="42" y1="20.3" x2="682" y2="20.3" stroke="#ffffff" stroke-width="0.4" opacity="0.08"/><text x="38" y="23.3" font-family="Space Mono,monospace" font-size="6" fill="#cccccc" text-anchor="end" opacity="0.7">2200m</text><line x1="42" y1="45.3" x2="682" y2="45.3" stroke="#ffffff" stroke-width="0.4" opacity="0.08"/><text x="38" y="48.3" font-family="Space Mono,monospace" font-size="6" fill="#cccccc" text-anchor="end" opacity="0.7">1600m</text><line x1="42" y1="78.7" x2="682" y2="78.7" stroke="#ffffff" stroke-width="0.4" opacity="0.08"/><text x="38" y="81.7" font-family="Space Mono,monospace" font-size="6" fill="#cccccc" text-anchor="end" opacity="0.7">800m</text><line x1="42" y1="103.7" x2="682" y2="103.7" stroke="#ffffff" stroke-width="0.4" opacity="0.08"/><text x="38" y="106.7" font-family="Space Mono,monospace" font-size="6" fill="#cccccc" text-anchor="end" opacity="0.7">200m</text><path d="M42,45.3 C55.5,44.4 77.2,43.1 102,41.2 C126.8,39.3 129.5,40.8 152,37.0 C174.5,33.2 181.8,27.6 202,24.5 C222.2,21.4 221.8,21.2 242,23.1 C262.2,25.0 267.2,25.9 292,32.8 C316.8,39.7 327.2,41.5 352,53.7 C376.8,65.9 381.8,75.4 402,87.0 C422.2,98.6 421.8,103.4 442,105.3 C462.2,107.2 465.0,101.3 492,95.3 C519.0,89.3 532.8,90.0 562,78.7 C591.2,67.5 595.0,57.8 622,45.3 C649.0,32.8 668.5,28.1 682,23.1 L682,120 L42,120 Z" fill="url(#eli4)" stroke="none"/><path d="M42,45.3 C55.5,44.4 77.2,43.1 102,41.2 C126.8,39.3 129.5,40.8 152,37.0 C174.5,33.2 181.8,27.6 202,24.5 C222.2,21.4 221.8,21.2 242,23.1 C262.2,25.0 267.2,25.9 292,32.8 C316.8,39.7 327.2,41.5 352,53.7 C376.8,65.9 381.8,75.4 402,87.0 C422.2,98.6 421.8,103.4 442,105.3 C462.2,107.2 465.0,101.3 492,95.3 C519.0,89.3 532.8,90.0 562,78.7 C591.2,67.5 595.0,57.8 622,45.3 C649.0,32.8 668.5,28.1 682,23.1" fill="none" stroke="#5090c0" stroke-width="2.2" stroke-linejoin="round"/><line x1="42" y1="155" x2="682" y2="155" stroke="#5090c0" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.45"/><line x1="42" y1="50.3" x2="42" y2="147" stroke="#a0a020" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="42" cy="45.3" r="4.5" fill="#a0a020" opacity="0.18"/><circle cx="42" cy="45.3" r="3" fill="#a0a020"/><circle cx="42" cy="45.3" r="1.2" fill="#ffffff"/><circle cx="42" cy="155" r="5" fill="#a0a020" opacity="0.15"/><circle cx="42" cy="155" r="3.5" fill="#a0a020"/><circle cx="42" cy="155" r="1.5" fill="#ffffff"/><text x="50" y="133" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="start" letter-spacing="0.3" font-weight="600">MUNNAR</text><text x="50" y="143" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="start">1600m</text><line x1="102" y1="46.2" x2="102" y2="147" stroke="#888" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="102" cy="41.2" r="4.5" fill="#888" opacity="0.18"/><circle cx="102" cy="41.2" r="3" fill="#888"/><circle cx="102" cy="41.2" r="1.2" fill="#ffffff"/><circle cx="102" cy="155" r="5" fill="#888" opacity="0.15"/><circle cx="102" cy="155" r="3.5" fill="#888"/><circle cx="102" cy="155" r="1.5" fill="#ffffff"/><text x="102" y="172" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="middle" letter-spacing="0.3" font-weight="600">DEVIKULAM</text><text x="102" y="180" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="middle">mountain lake</text><line x1="242" y1="28.1" x2="242" y2="147" stroke="#888" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="242" cy="23.1" r="4.5" fill="#888" opacity="0.18"/><circle cx="242" cy="23.1" r="3" fill="#888"/><circle cx="242" cy="23.1" r="1.2" fill="#ffffff"/><circle cx="242" cy="155" r="5" fill="#888" opacity="0.15"/><circle cx="242" cy="155" r="3.5" fill="#888"/><circle cx="242" cy="155" r="1.5" fill="#ffffff"/><text x="242" y="133" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="middle" letter-spacing="0.3" font-weight="600">TOP STATION</text><text x="242" y="143" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="middle">2100m optional</text><line x1="442" y1="110.3" x2="442" y2="147" stroke="#e04040" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="442" cy="105.3" r="4.5" fill="#e04040" opacity="0.18"/><circle cx="442" cy="105.3" r="3" fill="#e04040"/><circle cx="442" cy="105.3" r="1.2" fill="#ffffff"/><circle cx="442" cy="155" r="5" fill="#e04040" opacity="0.15"/><circle cx="442" cy="155" r="3.5" fill="#e04040"/><circle cx="442" cy="155" r="1.5" fill="#ffffff"/><text x="442" y="172" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="middle" letter-spacing="0.3" font-weight="600">THENI</text><text x="442" y="180" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="middle">⚠ use bypass</text><line x1="562" y1="83.7" x2="562" y2="147" stroke="#888" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="562" cy="78.7" r="4.5" fill="#888" opacity="0.18"/><circle cx="562" cy="78.7" r="3" fill="#888"/><circle cx="562" cy="78.7" r="1.2" fill="#ffffff"/><circle cx="562" cy="155" r="5" fill="#888" opacity="0.15"/><circle cx="562" cy="155" r="3.5" fill="#888"/><circle cx="562" cy="155" r="1.5" fill="#ffffff"/><text x="562" y="133" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="middle" letter-spacing="0.3" font-weight="600">BATLAGUNDU</text><text x="562" y="143" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="middle">ascent</text><line x1="682" y1="28.1" x2="682" y2="147" stroke="#8040a0" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="682" cy="23.1" r="4.5" fill="#8040a0" opacity="0.18"/><circle cx="682" cy="23.1" r="3" fill="#8040a0"/><circle cx="682" cy="23.1" r="1.2" fill="#ffffff"/><circle cx="682" cy="155" r="5" fill="#8040a0" opacity="0.15"/><circle cx="682" cy="155" r="3.5" fill="#8040a0"/><circle cx="682" cy="155" r="1.5" fill="#ffffff"/><text x="674" y="172" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="end" letter-spacing="0.3" font-weight="600">KODAIKANAL</text><text x="674" y="180" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="end">2133m</text><circle cx="242" cy="23.1" r="5" fill="#ffffff" opacity="0.9"/><circle cx="242" cy="23.1" r="2.5" fill="#5090c0"/><text x="242" y="13.100000000000001" font-family="Space Mono,monospace" font-size="7" fill="#ffffff" text-anchor="middle" font-weight="700">▲ 2133m</text><circle cx="442" cy="105.3" r="5" fill="#4a6080" opacity="0.9"/><circle cx="442" cy="105.3" r="2.5" fill="#aaccee"/><text x="442" y="119.3" font-family="Space Mono,monospace" font-size="7" fill="#aaccee" text-anchor="middle">▼ 160m</text></svg>`,
+  5: `<svg viewBox="0 0 696 195" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:195px;display:block;"><defs><linearGradient id="eli5" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#80c060" stop-opacity="0.3"/><stop offset="100%" stop-color="#80c060" stop-opacity="0.03"/></linearGradient></defs><line x1="42" y1="20.3" x2="682" y2="20.3" stroke="#ffffff" stroke-width="0.4" opacity="0.08"/><text x="38" y="23.3" font-family="Space Mono,monospace" font-size="6" fill="#cccccc" text-anchor="end" opacity="0.7">2200m</text><line x1="42" y1="45.3" x2="682" y2="45.3" stroke="#ffffff" stroke-width="0.4" opacity="0.08"/><text x="38" y="48.3" font-family="Space Mono,monospace" font-size="6" fill="#cccccc" text-anchor="end" opacity="0.7">1600m</text><line x1="42" y1="78.7" x2="682" y2="78.7" stroke="#ffffff" stroke-width="0.4" opacity="0.08"/><text x="38" y="81.7" font-family="Space Mono,monospace" font-size="6" fill="#cccccc" text-anchor="end" opacity="0.7">800m</text><line x1="42" y1="103.7" x2="682" y2="103.7" stroke="#ffffff" stroke-width="0.4" opacity="0.08"/><text x="38" y="106.7" font-family="Space Mono,monospace" font-size="6" fill="#cccccc" text-anchor="end" opacity="0.7">200m</text><path d="M42,23.1 C57.8,35.6 82.8,59.9 112,78.7 C141.2,97.5 140.5,103.0 172,106.6 C203.5,110.2 216.0,98.4 252,94.9 C288.0,91.4 296.0,93.0 332,91.2 C368.0,89.4 378.2,88.9 412,87.0 C445.8,85.1 450.5,85.6 482,82.8 C513.5,80.0 522.8,77.3 552,74.5 C581.2,71.7 587.2,72.2 612,70.3 C636.8,68.4 646.2,67.1 662,66.2 C677.8,65.3 677.5,66.2 682,66.2 L682,120 L42,120 Z" fill="url(#eli5)" stroke="none"/><path d="M42,23.1 C57.8,35.6 82.8,59.9 112,78.7 C141.2,97.5 140.5,103.0 172,106.6 C203.5,110.2 216.0,98.4 252,94.9 C288.0,91.4 296.0,93.0 332,91.2 C368.0,89.4 378.2,88.9 412,87.0 C445.8,85.1 450.5,85.6 482,82.8 C513.5,80.0 522.8,77.3 552,74.5 C581.2,71.7 587.2,72.2 612,70.3 C636.8,68.4 646.2,67.1 662,66.2 C677.8,65.3 677.5,66.2 682,66.2" fill="none" stroke="#80c060" stroke-width="2.2" stroke-linejoin="round"/><line x1="42" y1="155" x2="682" y2="155" stroke="#80c060" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.45"/><line x1="42" y1="28.1" x2="42" y2="147" stroke="#8040a0" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="42" cy="23.1" r="4.5" fill="#8040a0" opacity="0.18"/><circle cx="42" cy="23.1" r="3" fill="#8040a0"/><circle cx="42" cy="23.1" r="1.2" fill="#ffffff"/><circle cx="42" cy="155" r="5" fill="#8040a0" opacity="0.15"/><circle cx="42" cy="155" r="3.5" fill="#8040a0"/><circle cx="42" cy="155" r="1.5" fill="#ffffff"/><text x="50" y="133" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="start" letter-spacing="0.3" font-weight="600">KODAIKANAL</text><text x="50" y="143" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="start">2133m</text><line x1="172" y1="111.6" x2="172" y2="147" stroke="#888" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="172" cy="106.6" r="4.5" fill="#888" opacity="0.18"/><circle cx="172" cy="106.6" r="3" fill="#888"/><circle cx="172" cy="106.6" r="1.2" fill="#ffffff"/><circle cx="172" cy="155" r="5" fill="#888" opacity="0.15"/><circle cx="172" cy="155" r="3.5" fill="#888"/><circle cx="172" cy="155" r="1.5" fill="#ffffff"/><text x="172" y="172" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="middle" letter-spacing="0.3" font-weight="600">PALANI</text><text x="172" y="180" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="middle">Murugan temple</text><line x1="252" y1="99.9" x2="252" y2="147" stroke="#888" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="252" cy="94.9" r="4.5" fill="#888" opacity="0.18"/><circle cx="252" cy="94.9" r="3" fill="#888"/><circle cx="252" cy="94.9" r="1.2" fill="#ffffff"/><circle cx="252" cy="155" r="5" fill="#888" opacity="0.15"/><circle cx="252" cy="155" r="3.5" fill="#888"/><circle cx="252" cy="155" r="1.5" fill="#ffffff"/><text x="252" y="133" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="middle" letter-spacing="0.3" font-weight="600">COIMBATORE</text><text x="252" y="143" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="middle">use bypass</text><line x1="482" y1="87.8" x2="482" y2="147" stroke="#888" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="482" cy="82.8" r="4.5" fill="#888" opacity="0.18"/><circle cx="482" cy="82.8" r="3" fill="#888"/><circle cx="482" cy="82.8" r="1.2" fill="#ffffff"/><circle cx="482" cy="155" r="5" fill="#888" opacity="0.15"/><circle cx="482" cy="155" r="3.5" fill="#888"/><circle cx="482" cy="155" r="1.5" fill="#ffffff"/><text x="482" y="172" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="middle" letter-spacing="0.3" font-weight="600">KUSHALNAGAR</text><text x="482" y="180" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="middle">Coorg entry</text><line x1="682" y1="71.2" x2="682" y2="147" stroke="#c04040" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="682" cy="66.2" r="4.5" fill="#c04040" opacity="0.18"/><circle cx="682" cy="66.2" r="3" fill="#c04040"/><circle cx="682" cy="66.2" r="1.2" fill="#ffffff"/><circle cx="682" cy="155" r="5" fill="#c04040" opacity="0.15"/><circle cx="682" cy="155" r="3.5" fill="#c04040"/><circle cx="682" cy="155" r="1.5" fill="#ffffff"/><text x="674" y="133" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="end" letter-spacing="0.3" font-weight="600">MADIKERI</text><text x="674" y="143" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="end">1100m</text><circle cx="42" cy="23.1" r="5" fill="#ffffff" opacity="0.9"/><circle cx="42" cy="23.1" r="2.5" fill="#80c060"/><text x="48" y="13.100000000000001" font-family="Space Mono,monospace" font-size="7" fill="#ffffff" text-anchor="start" font-weight="700">▲ 2133m</text><circle cx="172" cy="106.6" r="5" fill="#4a6080" opacity="0.9"/><circle cx="172" cy="106.6" r="2.5" fill="#aaccee"/><text x="172" y="120.6" font-family="Space Mono,monospace" font-size="7" fill="#aaccee" text-anchor="middle">▼ 130m</text></svg>`,
+  6: `<svg viewBox="0 0 696 195" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:195px;display:block;"><defs><linearGradient id="eli6" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#e8a020" stop-opacity="0.3"/><stop offset="100%" stop-color="#e8a020" stop-opacity="0.03"/></linearGradient></defs><line x1="42" y1="20.3" x2="682" y2="20.3" stroke="#ffffff" stroke-width="0.4" opacity="0.08"/><text x="38" y="23.3" font-family="Space Mono,monospace" font-size="6" fill="#cccccc" text-anchor="end" opacity="0.7">2200m</text><line x1="42" y1="45.3" x2="682" y2="45.3" stroke="#ffffff" stroke-width="0.4" opacity="0.08"/><text x="38" y="48.3" font-family="Space Mono,monospace" font-size="6" fill="#cccccc" text-anchor="end" opacity="0.7">1600m</text><line x1="42" y1="78.7" x2="682" y2="78.7" stroke="#ffffff" stroke-width="0.4" opacity="0.08"/><text x="38" y="81.7" font-family="Space Mono,monospace" font-size="6" fill="#cccccc" text-anchor="end" opacity="0.7">800m</text><line x1="42" y1="103.7" x2="682" y2="103.7" stroke="#ffffff" stroke-width="0.4" opacity="0.08"/><text x="38" y="106.7" font-family="Space Mono,monospace" font-size="6" fill="#cccccc" text-anchor="end" opacity="0.7">200m</text><path d="M42,66.2 C60.0,68.1 90.5,71.1 122,74.5 C153.5,77.9 155.0,76.5 182,81.2 C209.0,85.9 215.0,88.6 242,95.3 C269.0,102.0 275.0,108.0 302,110.8 C329.0,113.6 335.0,111.3 362,107.8 C389.0,104.3 397.2,101.6 422,95.3 C446.8,89.0 447.2,83.6 472,79.9 C496.8,76.2 505.0,78.9 532,78.7 C559.0,78.5 565.0,79.1 592,79.1 C619.0,79.1 631.8,78.8 652,78.7 C672.2,78.6 675.2,78.7 682,78.7 L682,120 L42,120 Z" fill="url(#eli6)" stroke="none"/><path d="M42,66.2 C60.0,68.1 90.5,71.1 122,74.5 C153.5,77.9 155.0,76.5 182,81.2 C209.0,85.9 215.0,88.6 242,95.3 C269.0,102.0 275.0,108.0 302,110.8 C329.0,113.6 335.0,111.3 362,107.8 C389.0,104.3 397.2,101.6 422,95.3 C446.8,89.0 447.2,83.6 472,79.9 C496.8,76.2 505.0,78.9 532,78.7 C559.0,78.5 565.0,79.1 592,79.1 C619.0,79.1 631.8,78.8 652,78.7 C672.2,78.6 675.2,78.7 682,78.7" fill="none" stroke="#e8a020" stroke-width="2.2" stroke-linejoin="round"/><line x1="42" y1="155" x2="682" y2="155" stroke="#e8a020" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.45"/><line x1="42" y1="71.2" x2="42" y2="147" stroke="#c04040" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="42" cy="66.2" r="4.5" fill="#c04040" opacity="0.18"/><circle cx="42" cy="66.2" r="3" fill="#c04040"/><circle cx="42" cy="66.2" r="1.2" fill="#ffffff"/><circle cx="42" cy="155" r="5" fill="#c04040" opacity="0.15"/><circle cx="42" cy="155" r="3.5" fill="#c04040"/><circle cx="42" cy="155" r="1.5" fill="#ffffff"/><text x="50" y="133" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="start" letter-spacing="0.3" font-weight="600">MADIKERI</text><text x="50" y="143" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="start">1100m</text><line x1="182" y1="86.2" x2="182" y2="147" stroke="#888" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="182" cy="81.2" r="4.5" fill="#888" opacity="0.18"/><circle cx="182" cy="81.2" r="3" fill="#888"/><circle cx="182" cy="81.2" r="1.2" fill="#ffffff"/><circle cx="182" cy="155" r="5" fill="#888" opacity="0.15"/><circle cx="182" cy="155" r="3.5" fill="#888"/><circle cx="182" cy="155" r="1.5" fill="#ffffff"/><text x="182" y="172" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="middle" letter-spacing="0.3" font-weight="600">VIRAJPET</text><text x="182" y="180" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="middle">Coorg</text><line x1="302" y1="115.8" x2="302" y2="147" stroke="#4a7c4e" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="302" cy="110.8" r="4.5" fill="#4a7c4e" opacity="0.18"/><circle cx="302" cy="110.8" r="3" fill="#4a7c4e"/><circle cx="302" cy="110.8" r="1.2" fill="#ffffff"/><circle cx="302" cy="155" r="5" fill="#4a7c4e" opacity="0.15"/><circle cx="302" cy="155" r="3.5" fill="#4a7c4e"/><circle cx="302" cy="155" r="1.5" fill="#ffffff"/><text x="302" y="133" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="middle" letter-spacing="0.3" font-weight="600">NILAMBUR</text><text x="302" y="143" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="middle">🌲 teak forests</text><line x1="472" y1="84.9" x2="472" y2="147" stroke="#c040c0" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="472" cy="79.9" r="4.5" fill="#c040c0" opacity="0.18"/><circle cx="472" cy="79.9" r="3" fill="#c040c0"/><circle cx="472" cy="79.9" r="1.2" fill="#ffffff"/><circle cx="472" cy="155" r="5" fill="#c040c0" opacity="0.15"/><circle cx="472" cy="155" r="3.5" fill="#c040c0"/><circle cx="472" cy="155" r="1.5" fill="#ffffff"/><text x="472" y="172" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="middle" letter-spacing="0.3" font-weight="600">MANANTHAVADY</text><text x="472" y="180" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="middle">🔥 Theyyam?</text><line x1="682" y1="83.7" x2="682" y2="147" stroke="#d4891a" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.4"/><circle cx="682" cy="78.7" r="4.5" fill="#d4891a" opacity="0.18"/><circle cx="682" cy="78.7" r="3" fill="#d4891a"/><circle cx="682" cy="78.7" r="1.2" fill="#ffffff"/><circle cx="682" cy="155" r="5" fill="#d4891a" opacity="0.15"/><circle cx="682" cy="155" r="3.5" fill="#d4891a"/><circle cx="682" cy="155" r="1.5" fill="#ffffff"/><text x="674" y="133" font-family="Space Mono,monospace" font-size="7.5" fill="#ffffff" text-anchor="end" letter-spacing="0.3" font-weight="600">KALPETTA</text><text x="674" y="143" font-family="Space Mono,monospace" font-size="6.5" fill="#aaaaaa" text-anchor="end">🏁 loop done</text><circle cx="42" cy="66.2" r="5" fill="#ffffff" opacity="0.9"/><circle cx="42" cy="66.2" r="2.5" fill="#e8a020"/><text x="48" y="56.2" font-family="Space Mono,monospace" font-size="7" fill="#ffffff" text-anchor="start" font-weight="700">▲ 1100m</text><circle cx="302" cy="110.8" r="5" fill="#4a6080" opacity="0.9"/><circle cx="302" cy="110.8" r="2.5" fill="#aaccee"/><text x="302" y="124.8" font-family="Space Mono,monospace" font-size="7" fill="#aaccee" text-anchor="middle">▼ 30m</text></svg>`,
+};
+
+function buildDayMapSVG(n, d) {
+  const configs = {
+    1:{vb:"0 0 680 230",h:230,path:"M 58,175 C 130,162 190,148 265,128 C 340,108 400,82 458,62 C 508,46 558,36 618,28",pts:[{x:58,y:175,lbl:"KALPETTA",sub:"11 AM · Pick up bike",c:"#e8a020",ta:"start",dx:14,dy:0},{x:175,y:148,lbl:"MANANTHAVADY",sub:"Fuel · 30 km",c:"#888",ta:"middle",dx:0,dy:-13},{x:265,y:128,lbl:"KUTTA CP",sub:"⚠ Say 'Ooty'",c:"#c04040",ta:"middle",dx:0,dy:-13},{x:370,y:95,lbl:"BANDIPUR",sub:"🐯 30km/h",c:"#4a7c4e",ta:"middle",dx:0,dy:-13},{x:465,y:62,lbl:"MUDUMALAI",sub:"🐘 Reserve",c:"#4a7c4e",ta:"middle",dx:0,dy:-13},{x:618,y:28,lbl:"OOTY",sub:"Night 1 · 2240m",c:"#4a7c4e",ta:"end",dx:-14,dy:0}],icons:[{x:548,y:46,i:"🔄",t:"36 Bends"}]},
+    2:{vb:"0 0 680 230",h:230,path:"M 70,36 C 140,50 190,76 265,112 C 325,140 370,158 418,172 C 488,182 548,185 618,180",pts:[{x:70,y:36,lbl:"OOTY",sub:"Start · descent",c:"#4a7c4e",ta:"start",dx:14,dy:0},{x:160,y:58,lbl:"COONOOR",sub:"Tea estates",c:"#888",ta:"middle",dx:0,dy:-13},{x:265,y:112,lbl:"METTUPALAYAM",sub:"Plains",c:"#888",ta:"middle",dx:0,dy:-13},{x:418,y:170,lbl:"POLLACHI",sub:"Fuel + lunch",c:"#888",ta:"middle",dx:0,dy:-13},{x:618,y:180,lbl:"VALPARAI",sub:"Night 2 · 40 bends",c:"#4060a0",ta:"end",dx:-14,dy:0}],icons:[{x:372,y:162,i:"💧",t:"Monkey Falls"},{x:530,y:172,i:"🔄",t:"40 Bends"}]},
+    3:{vb:"0 0 680 230",h:230,path:"M 72,55 C 125,75 158,98 195,125 C 228,148 248,162 285,178 C 352,198 428,194 518,184 C 565,177 600,170 638,162",pts:[{x:72,y:55,lbl:"VALPARAI",sub:"Full tank!",c:"#4060a0",ta:"start",dx:14,dy:0},{x:195,y:124,lbl:"SHOLAYAR",sub:"Forest zone",c:"#888",ta:"middle",dx:0,dy:-13},{x:285,y:176,lbl:"MALAKKAPPARA",sub:"⚠ Register",c:"#c04040",ta:"middle",dx:0,dy:-13},{x:518,y:182,lbl:"ATHIRAPPILLY",sub:"💧 80m falls",c:"#6090d0",ta:"middle",dx:0,dy:-13},{x:638,y:162,lbl:"MUNNAR",sub:"Night 3 · 1600m",c:"#c0c040",ta:"end",dx:-14,dy:0}],icons:[]},
+    4:{vb:"0 0 680 230",h:230,path:"M 70,122 C 135,112 178,102 238,92 C 298,82 348,75 412,80 C 472,85 512,106 582,140 C 610,153 628,160 648,163",pts:[{x:70,y:122,lbl:"MUNNAR",sub:"Morning mist",c:"#c0c040",ta:"start",dx:14,dy:0},{x:195,y:98,lbl:"DEVIKULAM",sub:"Lake · 15 km",c:"#888",ta:"middle",dx:0,dy:-13},{x:340,y:77,lbl:"POOPARA",sub:"Cardamom",c:"#888",ta:"middle",dx:0,dy:-13},{x:485,y:89,lbl:"THENI",sub:"⚠ Use bypass",c:"#e04040",ta:"middle",dx:0,dy:-13},{x:648,y:163,lbl:"KODAIKANAL",sub:"Night 4 · 2133m",c:"#a060c0",ta:"end",dx:-14,dy:0}],icons:[{x:300,y:65,i:"🍃",t:"Tea Estates"}]},
+    5:{vb:"0 0 680 230",h:230,path:"M 68,168 C 125,152 168,128 228,112 C 305,92 372,86 435,88 C 495,90 542,98 592,108 C 620,114 640,118 650,116",pts:[{x:68,y:168,lbl:"KODAIKANAL",sub:"2133m · descent",c:"#a060c0",ta:"start",dx:14,dy:0},{x:195,y:122,lbl:"PALANI",sub:"Temple · 65 km",c:"#888",ta:"middle",dx:0,dy:-13},{x:365,y:85,lbl:"COIMBATORE",sub:"Use bypass",c:"#888",ta:"middle",dx:0,dy:-13},{x:532,y:96,lbl:"KUSHALNAGAR",sub:"Coorg entry",c:"#888",ta:"middle",dx:0,dy:-13},{x:650,y:116,lbl:"MADIKERI",sub:"Night 5 · 1100m",c:"#c04040",ta:"end",dx:-14,dy:0}],icons:[]},
+    6:{vb:"0 0 680 230",h:230,path:"M 68,118 C 142,112 192,108 262,104 C 332,100 388,95 448,92 C 508,88 555,88 612,96 C 635,100 648,106 655,112",pts:[{x:68,y:118,lbl:"MADIKERI",sub:"Relaxed start",c:"#c04040",ta:"start",dx:14,dy:0},{x:210,y:106,lbl:"VIRAJPET",sub:"Coorg",c:"#888",ta:"middle",dx:0,dy:-13},{x:375,y:96,lbl:"NILAMBUR",sub:"🌲 Teak Forests",c:"#4a7c4e",ta:"middle",dx:0,dy:-13},{x:520,y:90,lbl:"MANANTHAVADY",sub:"🔥 Theyyam?",c:"#c040c0",ta:"middle",dx:0,dy:-13},{x:655,y:112,lbl:"KALPETTA",sub:"🏁 Loop closed!",c:"#d4891a",ta:"end",dx:-14,dy:0}],icons:[{x:375,y:114,i:"🌲",t:"Heritage Teak"},{x:520,y:108,i:"🔥",t:"Theyyam"}]}
+  };
+  const m = configs[n];
+  const col = d.color;
+  const ptsHTML = m.pts.map(p=>{
+    const lx = p.dx ? p.x+p.dx : p.x;
+    const ly0 = p.dy===0 ? p.y-13 : p.y+p.dy;
+    const ly1 = p.dy===0 ? p.y-1 : p.y+p.dy+11;
+    const ta = p.ta;
+    return `<circle cx="${p.x}" cy="${p.y}" r="11" fill="${p.c}" opacity="0.14"/>
+<circle cx="${p.x}" cy="${p.y}" r="6" fill="${p.c}"/>
+<circle cx="${p.x}" cy="${p.y}" r="2.5" fill="#fff"/>
+<text x="${lx}" y="${ly0}" font-family="Space Mono,monospace" font-size="9.5" fill="${p.c}" text-anchor="${ta}" letter-spacing="0.3">${p.lbl}</text>
+<text x="${lx}" y="${ly1}" font-family="Space Mono,monospace" font-size="8" fill="#7a7870" text-anchor="${ta}">${p.sub}</text>`;
+  }).join('');
+  const iconsHTML = m.icons.map(i=>`<text x="${i.x}" y="${i.y}" font-size="13" text-anchor="middle">${i.i}</text><text x="${i.x}" y="${i.y+12}" font-family="Space Mono,monospace" font-size="7" fill="#5a5850" text-anchor="middle">${i.t}</text>`).join('');
+  return `<svg viewBox="${m.vb}" xmlns="http://www.w3.org/2000/svg" style="height:${m.h}px;width:100%;">
+<defs><radialGradient id="dmb${n}" cx="50%" cy="50%" r="60%"><stop offset="0%" stop-color="#181c12"/><stop offset="100%" stop-color="#0a0a08"/></radialGradient></defs>
+<rect width="680" height="${m.h}" fill="url(#dmb${n})"/>
+<line x1="0" y1="${m.h/2}" x2="680" y2="${m.h/2}" stroke="#1e201a" stroke-width="0.8"/>
+<path d="${m.path}" fill="none" stroke="${col}" stroke-width="10" opacity="0.07" stroke-linecap="round"/>
+<path d="${m.path}" fill="none" stroke="#282818" stroke-width="5" stroke-linecap="round"/>
+<path d="${m.path}" fill="none" stroke="${col}" stroke-width="2.5" stroke-dasharray="8,5" stroke-linecap="round" opacity="0.9"/>
+${iconsHTML}${ptsHTML}
+<text x="12" y="25" font-family="Bebas Neue,sans-serif" font-size="30" fill="${col}" opacity="0.12" letter-spacing="2">DAY ${n}</text>
+</svg>`;
+}
+
+function selectDay(n) {
+  document.querySelectorAll('.day-sel-btn').forEach((b,i)=>b.classList.toggle('active',i+1===n));
+  const d = days[n];
+  const kms=[250,210,170,180,330,200];
+  const pct=Math.round((kms[n-1]/300)*100);
+  const routeHTML=d.route.map(s=>`<div><div class="route-step"><div class="route-dot" style="background:${d.color};border-color:${d.color}88;"></div><div class="route-step-name">${s.name}</div></div>${s.note?`<div class="route-step-note">${s.note}</div>`:''}</div>`).join('');
+  const tipsHTML=d.tips.map(t=>`<li>${t}</li>`).join('');
+  const mapSVG=buildDayMapSVG(n,d);
+  document.getElementById('day-detail-content').innerHTML=`
+<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px;margin-bottom:10px;">
+  <div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,5vw,58px);line-height:1;color:var(--text);"><span style="color:${d.color}">${d.title}</span></div>
+    <div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);margin-top:6px;letter-spacing:2px;">${d.subtitle}</div>
+  </div>
+  <span class="day-intensity ${d.intensityClass}">${d.intensity}</span>
+</div>
+<div style="display:flex;gap:26px;margin-bottom:10px;flex-wrap:wrap;">
+  <div class="day-metric"><span class="day-metric-val" style="color:${d.color}">${d.km}</span><span class="day-metric-label">km</span></div>
+  <div class="day-metric"><span class="day-metric-val" style="color:${d.color}">${d.hours}</span><span class="day-metric-label">riding time</span></div>
+  <div class="day-metric"><span class="day-metric-val" style="font-size:18px;color:${d.color}">${d.states}</span><span class="day-metric-label">states</span></div>
+</div>
+<div style="margin-bottom:20px;"><div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:6px;">Elevation &amp; Stops</div>${elevProfiles[n]}</div>
+<p style="font-size:16px;color:var(--muted);line-height:1.75;margin-bottom:22px;font-style:italic;">${d.desc}</p>
+<div class="map-canvas-wrap" style="margin-bottom:14px;">${mapSVG}<div class="map-overlay-label">🏍 ${d.title} · ${d.km} km · ${d.states}</div></div>
+<div style="margin-bottom:20px;"><a href="${d.gmapsUrl}" target="_blank" class="map-btn map-btn-primary" style="display:inline-flex;">🗺 Open in Google Maps</a></div>
+<div class="day-detail-grid">
+  <div class="detail-card"><div class="detail-card-title">Route — Point by Point</div><div class="route-steps">${routeHTML}</div></div>
+  <div class="detail-card"><div class="detail-card-title">Tactics & Tips</div><ul class="tips-list">${tipsHTML}</ul></div>
+</div>`;
+}
+
+selectDay(1);
+</script>
+</body>
+</html>
